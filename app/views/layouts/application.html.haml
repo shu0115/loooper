@@ -13,7 +13,8 @@
             %li.user
               %span.icon= link_to_unless( current_user.screen_name.blank?, image_tag( current_user.image, size: "20x20" ), "https://twitter.com/#!/#{current_user.screen_name}", target: "_blank" )
               %span.name= current_user.name
-            %li.logout #{link_to "Item", controller: "items" }
+            %li.top #{link_to "Top", :root }
+            %li.item #{link_to "Item", controller: "items" }
             %li.logout #{link_to "Logout", logout_path}
           - else
             %li.login= link_to "Login", "/auth/#{DEFAULT_PROVIDER}"

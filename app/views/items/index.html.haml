@@ -1,37 +1,41 @@
-%h1 Listing Items
+%h1= APP_NAME
+
 .new_item
   = form_for :item, url: { action: "create" } do |f|
     .field
       %ul
-        %li.label= Item
+        %li.label= "Item"
         %li.text_field= f.text_field :name
+    .field
+      %ul
+        %li.label= "Life"
+        %li.number_field= f.number_field :life
     .actions
       %ul
-        %li.submit= f.submit
+        %li.submit= f.submit t( "menu.create", default: "Create" ), disable_with: t( "menu.create", default: "Create" )
 
 .items
   %table
     %tr
-      %th User ID
+      %th User
       %th Item ID
       %th Name
       %th Status
       %th Life
       %th Last done at
-      %th
+      %th Gauge
       %th
       %th
       %th
     - @items.each do |item|
       %tr
-        %td= item.user_id
+        %td= link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
         %td= item.id
         %td= item.name
         %td= item.status
         %td= item.life
-        %td= item.last_done_at
-        %td.done= link_to 'Done', action: "done", id: item.id
-        %td= link_to 'Edit', action: "edit", id: item.id
-        %td= link_to "Delete", { action: "destroy", id: item.id }, onclick: "return confirm('本当に削除してよろしいですか？');"
-
-= link_to t( "menu.top", default: "Top" ), :root
+        %td= item.last_done_at.blank? ? "" : item.last_done_at.strftime("%Y/%m/%d")
+        %td.gauge= Item.show_gauge( item.get_rest_life )
+        %td.done.button= link_to 'Done', action: "done", id: item.id
+        %td.button= link_to 'Edit', action: "edit", id: item.id
+        %td.button= link_to "Delete", { action: "destroy", id: item.id }, onclick: "return confirm('本当に削除してよろしいですか？');"

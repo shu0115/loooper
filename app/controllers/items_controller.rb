@@ -5,24 +5,11 @@ class ItemsController < ApplicationController
   # index #
   #-------#
   def index
-    @items = Item.where( user_id: session[:user_id] ).all
-    @item = Item.new
-  end
-
-  #------#
-  # show #
-  #------#
-  def show
-    @item = Item.where( id: params[:id], user_id: session[:user_id] ).first
-  end
-
-  #-----#
-  # new #
-  #-----#
-  def new
-    @item = Item.new
+    @items = Item.where( user_id: session[:user_id] ).includes( :user ).all
+    @item = Item.new( life: 7 )
     
-    @submit = "create"
+    # 残ライフが少ない順にソート
+    @items.sort!{ |a, b| a.get_rest_life <=> b.get_rest_life }
   end
 
   #------#
@@ -30,8 +17,6 @@ class ItemsController < ApplicationController
   #------#
   def edit
     @item = Item.where( id: params[:id], user_id: session[:user_id] ).first
-    
-    @submit = "update"
   end
 
   #--------#
@@ -40,9 +25,10 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new( params[:item] )
     @item.user_id = session[:user_id]
+    @item.last_done_at = Time.now
 
     if @item.save
-      redirect_to( { action: "index" }, notice: "Item was successfully created." )
+      redirect_to( { action: "index" } )
     else
       render action: "new"
     end
@@ -55,7 +41,7 @@ class ItemsController < ApplicationController
     @item = Item.where( id: params[:id], user_id: session[:user_id] ).first
 
     if @item.update_attributes( params[:item] )
-      redirect_to( { action: "show", id: params[:id] }, notice: "Item was successfully updated." )
+      redirect_to( { action: "index" }, notice: 'Update!' )
     else
       render action: "edit", id: params[:id]
     end
@@ -69,6 +55,16 @@ class ItemsController < ApplicationController
     @item.destroy
 
     redirect_to action: "index"
+  end
+
+  #------#
+  # done #
+  #------#
+  def done
+    @item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    
+    @item.update_attributes( status: "done", last_done_at: Time.now )
+    redirect_to( { action: "index" }, notice: 'Done!!!' )
   end
 
 end
