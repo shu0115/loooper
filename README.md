@@ -10,13 +10,13 @@ Life Gauge Task App.
 
 ### リポジトリをローカルへ作成
 
-    $ cd ~/WORK_DIRECTORY
-    $ git clone git@github.com:shu0115/loooper.git
-    $ cd loooper
+    cd ~/WORK_DIRECTORY
+    git clone git@github.com:shu0115/loooper.git
+    cd loooper
 
 ### ブランチ作成
 
-    $ git checkout -b YOUR_NEW_BRANCH
+    git checkout -b YOUR_NEW_BRANCH
 
 ### Twitterアプリ登録
 
