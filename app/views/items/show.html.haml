@@ -1,0 +1,14 @@
+%p
+  %b User:
+  = @item.user_id
+%p
+  %b Name:
+  = @item.name
+%p
+  %b Life:
+  = @item.life
+%p
+  %b Last done at:
+  = @item.last_done_at
+= link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @item.id
+| #{link_to t( "menu.list", default: "List" ), action: "index"}

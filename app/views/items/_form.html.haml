@@ -1,0 +1,27 @@
+= form_for :item, url: { action: @submit, id: @item.try(:id) } do |f|
+- if @item.errors.any?
+  #error_explanation
+    %h2
+      = pluralize(@item.errors.count, "error")
+      prohibited this item from being saved:
+    %ul
+      - @item.errors.full_messages.each do |msg|
+        %li= msg
+.field
+  = f.label :user_id
+  %br/
+  = f.text_field :user_id
+.field
+  = f.label :name
+  %br/
+  = f.text_field :name
+.field
+  = f.label :life
+  %br/
+  = f.number_field :life
+.field
+  = f.label :last_done_at
+  %br/
+  = f.datetime_select :last_done_at
+.actions
+  = f.submit t( "menu.#{@submit}", default: @submit ), disable_with: t( "menu.#{@submit}", default: @submit )
