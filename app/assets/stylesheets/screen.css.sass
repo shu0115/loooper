@@ -82,12 +82,18 @@ header
         &.label
           font:
             size: 20px
-          padding: 0 10px 0 0
+          padding: 0 10px 0 10px
         &.text_field
           input
             font:
               size: 18px
-            width: 400px
+            width: 250px
+            +border-radius(4px)
+        &.number_field
+          input
+            font:
+              size: 18px
+            width: 70px
             +border-radius(4px)
         &.submit
           padding: 0 0 0 8px
@@ -111,10 +117,12 @@ header
           white-space: nowrap
         td
           background: rgba(0, 0, 0, .2)
-          a
+          &.button a
             +pink_button
           &.done
             text-align: center
+          &.gauge
+            text-align: right
 
 footer
   padding: 40px 0 0 0

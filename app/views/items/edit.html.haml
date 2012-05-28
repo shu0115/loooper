@@ -1,4 +1,17 @@
-%h1 Editing item
-= render 'form'
-= link_to t( "menu.show", default: "Show" ), action: "show", id: @item.id
-| #{link_to t( "menu.list", default: "List" ), action: "index"}
+%h1 Editing Item
+
+.edit_item
+  = form_for :item, url: { action: "update", id: @item.id } do |f|
+    .field
+      %ul
+        %li.label= "Item"
+        %li.text_field= f.text_field :name
+    .field
+      %ul
+        %li.label= "Life"
+        %li.number_field= f.number_field :life
+    .actions
+      %ul
+        %li.submit= f.submit t( "menu.update", default: "Update" ), disable_with: t( "menu.update", default: "Update" )
+
+#{ link_to t( "menu.list", default: "List" ), action: "index" }
