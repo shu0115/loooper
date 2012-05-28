@@ -1,18 +1,18 @@
-# APP_NAME
+# Loooper
 
-APP_DESCRIPTION.
+Life Gauge Task App.
 
 ## Local Setting
 
 ### GitHub上でFork
 
-    https://github.com/USER_NAME/APP_NAME/
+    https://github.com/shu0115/loooper
 
 ### リポジトリをローカルへ作成
 
     $ cd ~/WORK_DIRECTORY
-    $ git clone git@github.com:YOUR_USER_NAME/APP_NAME.git
-    $ cd APP_NAME
+    $ git clone git@github.com:shu0115/loooper.git
+    $ cd loooper
 
 ### ブランチ作成
 
@@ -61,4 +61,4 @@ Gemインストール
 
 ## Copyright
 
-Copyright (c) 2012 MY_NAME. <a href="http://creativecommons.org/licenses/by-nc-sa/2.1/jp/" target="_blank">CC BY-NC-SA 2.1</a>
+Copyright (c) 2012 <a href='https://twitter.com/#!/shu_0115/' target='_blank'>@shu_0115</a>, <a href='https://twitter.com/#!/machida/' target='_blank'>@machida</a>. <a href="http://creativecommons.org/licenses/by-nc-sa/2.1/jp/" target="_blank">CC BY-NC-SA 2.1</a>
