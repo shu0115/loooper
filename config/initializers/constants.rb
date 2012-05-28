@@ -18,3 +18,8 @@ end
 # アプリケーション名
 APP_NAME = "Loooper"
 
+# プログラマ名
+PROGRAMMER_NAME = "shu_0115"
+
+# デザイナー名
+DESIGNER_NAME = "machida"

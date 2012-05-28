@@ -1,0 +1,37 @@
+%h1 Listing Items
+.new_item
+  = form_for :item, url: { action: "create" } do |f|
+    .field
+      %ul
+        %li.label= Item
+        %li.text_field= f.text_field :name
+    .actions
+      %ul
+        %li.submit= f.submit
+
+.items
+  %table
+    %tr
+      %th User ID
+      %th Item ID
+      %th Name
+      %th Status
+      %th Life
+      %th Last done at
+      %th
+      %th
+      %th
+      %th
+    - @items.each do |item|
+      %tr
+        %td= item.user_id
+        %td= item.id
+        %td= item.name
+        %td= item.status
+        %td= item.life
+        %td= item.last_done_at
+        %td.done= link_to 'Done', action: "done", id: item.id
+        %td= link_to 'Edit', action: "edit", id: item.id
+        %td= link_to "Delete", { action: "destroy", id: item.id }, onclick: "return confirm('本当に削除してよろしいですか？');"
+
+= link_to t( "menu.top", default: "Top" ), :root

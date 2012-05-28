@@ -1,0 +1,4 @@
+%h1 Editing item
+= render 'form'
+= link_to t( "menu.show", default: "Show" ), action: "show", id: @item.id
+| #{link_to t( "menu.list", default: "List" ), action: "index"}
