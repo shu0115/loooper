@@ -68,6 +68,7 @@ header
       family: 'Oleo Script', cursive
       size: 60px
     text-align: center
+    
   .new_item
     padding: 30px 0 30px 0
     width: 560px
@@ -120,9 +121,30 @@ header
             +pink_button
           &.done
             text-align: center
+          &.cancel
+            text-align: center
           &.gauge
             text-align: right
             white-space: nowrap
+            
+  .histories
+    table
+      clear: both
+      width: 800px
+      margin: 0 auto 30px auto
+      tr
+        th,
+        td
+          padding: 8px 12px
+          border: #5e81a6 solid 1px
+        th
+          background: rgba(0, 0, 0, .4)
+          text-align: center
+          white-space: nowrap
+        td
+          background: rgba(0, 0, 0, .2)
+          &.button a
+            +pink_button
 
 footer
   padding: 40px 0 0 0

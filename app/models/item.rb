@@ -24,6 +24,13 @@ class Item < ActiveRecord::Base
   #-----------------#
   # ゲージを表示する
   def self.show_gauge( rest_life )
+    if rest_life > 0
+      return "■"
+    elsif rest_life < 0
+      return "×"
+    end
+    
+=begin
     gauge = ""
     
     if rest_life > 0
@@ -33,6 +40,7 @@ class Item < ActiveRecord::Base
     end
     
     return gauge
+=end
   end
 
 end
