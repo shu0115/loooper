@@ -28,6 +28,9 @@ class ItemsController < ApplicationController
     @item.last_done_at = Time.now
 
     if @item.save
+      # 初期Done履歴作成
+      History.create( user_id: @item.user_id, item_id: @item.id, done_at: @item.last_done_at )
+      
       redirect_to( { action: "index" } )
     else
       render action: "new"
@@ -61,10 +64,42 @@ class ItemsController < ApplicationController
   # done #
   #------#
   def done
-    @item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    message = Hash.new
     
-    @item.update_attributes( status: "done", last_done_at: Time.now )
-    redirect_to( { action: "index" }, notice: 'Done!!!' )
+    if item.update_attributes( status: "done", last_done_at: Time.now )
+      # Done履歴作成
+      History.create( user_id: item.user_id, item_id: item.id, done_at: item.last_done_at )
+      
+      message[:notice] = "DONE!!!"
+    else
+      message[:alert] = "ERROR!!!"
+    end
+    
+    redirect_to( { action: "index" }, message )
+  end
+  
+  #--------#
+  # cancel #
+  #--------#
+  def cancel
+    message = Hash.new
+    item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    history = History.where( item_id: item.id, user_id: session[:user_id] ).order( "done_at DESC" ).first
+    
+    ActiveRecord::Base.transaction do
+      if history.destroy
+        history = History.where( item_id: item.id, user_id: session[:user_id] ).order( "done_at DESC" ).first
+        
+        if item.update_attributes( status: nil, last_done_at: history.done_at )
+          message[:notice] = "CANCEL!!!"
+        else
+          message[:alert] = "ERROR!!!"
+        end
+      end
+    end
+    
+    redirect_to( { action: "index" }, message )
   end
 
 end

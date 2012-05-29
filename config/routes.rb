@@ -1,4 +1,6 @@
 Loooper::Application.routes.draw do
+#  resources :histories
+
 #  resources :items
 
   # The priority is based upon order of creation:

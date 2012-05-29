@@ -1,0 +1,19 @@
+%h1 Listing Histories
+
+.histories
+  %table
+    %tr
+      %th User
+      %th Item
+      %th Done at
+    - @histories.each{ |history|
+    %tr
+      %td= link_to_unless( history.user.try(:screen_name).blank?, image_tag( history.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{history.user.try(:screen_name)}", target: "_blank" )
+      %td= history.item_id
+      %td= history.done_at.blank? ? "" : history.done_at.strftime("%Y/%m/%d %H:%M")
+    - }
+
+%br/
+= link_to "Items", { controller: "items" }
+|
+= link_to t( "menu.top", default: "Top" ), :root
