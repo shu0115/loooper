@@ -100,11 +100,17 @@ class ItemsController < ApplicationController
     item = Item.where( user_id: session[:user_id], id: params[:id] ).first
     history = History.where( item_id: item.id, user_id: session[:user_id] ).order( "done_at DESC" ).first
 
+    # キャンセル対象History以外のHistoryが一つも無ければリダイレクト
+    unless History.where( item_id: item.id, user_id: session[:user_id] ).where( "id != #{history.id}" ).count > 0
+      redirect_to( { action: "index" }, alert: "キャンセル出来る履歴がありません。" ) and return
+    end
+
     ActiveRecord::Base.transaction do
       if history.destroy
+        # done_atを一つ戻す
         history = History.where( item_id: item.id, user_id: session[:user_id] ).order( "done_at DESC" ).first
 
-        if item.update_attributes( status: nil, last_done_at: history.done_at )
+        if item.update_attributes( status: "", last_done_at: history.done_at )
           message[:notice] = "CANCEL!!!"
         else
           message[:alert] = "ERROR!!!"
