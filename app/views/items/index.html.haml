@@ -33,7 +33,7 @@
       %tr
         %td= link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
         %td= item.id
-        %td= item.name
+        %td.nowrap= item.name
         %td= item.status
         %td= item.life
         %td= item.last_done_at.blank? ? "" : item.last_done_at.strftime("%Y/%m/%d")
