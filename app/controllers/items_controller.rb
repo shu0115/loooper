@@ -5,9 +5,9 @@ class ItemsController < ApplicationController
   # index #
   #-------#
   def index
-    @items = Item.where( user_id: session[:user_id] ).includes( :user ).all
+    @items = Item.not_archive.where( user_id: session[:user_id] ).includes( :user ).all
     @item = Item.new( life: 7 )
-    
+
     # 残ライフが少ない順にソート
     @items.sort!{ |a, b| a.get_rest_life <=> b.get_rest_life }
   end
@@ -16,7 +16,7 @@ class ItemsController < ApplicationController
   # edit #
   #------#
   def edit
-    @item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
   end
 
   #--------#
@@ -30,7 +30,7 @@ class ItemsController < ApplicationController
     if @item.save
       # 初期Done履歴作成
       History.create( user_id: @item.user_id, item_id: @item.id, done_at: @item.last_done_at )
-      
+
       redirect_to( { action: "index" } )
     else
       render action: "new"
@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
   # update #
   #--------#
   def update
-    @item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
 
     if @item.update_attributes( params[:item] )
       redirect_to( { action: "index" }, notice: 'Update!' )
@@ -54,7 +54,7 @@ class ItemsController < ApplicationController
   # destroy #
   #---------#
   def destroy
-    @item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
     @item.destroy
 
     redirect_to action: "index"
@@ -64,33 +64,46 @@ class ItemsController < ApplicationController
   # done #
   #------#
   def done
-    item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    item = Item.where( user_id: session[:user_id], id: params[:id] ).first
     message = Hash.new
-    
+
     if item.update_attributes( status: "done", last_done_at: Time.now )
       # Done履歴作成
       History.create( user_id: item.user_id, item_id: item.id, done_at: item.last_done_at )
-      
+
       message[:notice] = "DONE!!!"
     else
       message[:alert] = "ERROR!!!"
     end
-    
+
     redirect_to( { action: "index" }, message )
   end
-  
+
+  #---------#
+  # archive #
+  #---------#
+  def archive
+    item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+
+    unless item.update_attributes( status: "archive", archive_at: Time.now )
+      alert = "Archive Error."
+    end
+
+    redirect_to( { action: "index" }, alert: alert )
+  end
+
   #--------#
   # cancel #
   #--------#
   def cancel
     message = Hash.new
-    item = Item.where( id: params[:id], user_id: session[:user_id] ).first
+    item = Item.where( user_id: session[:user_id], id: params[:id] ).first
     history = History.where( item_id: item.id, user_id: session[:user_id] ).order( "done_at DESC" ).first
-    
+
     ActiveRecord::Base.transaction do
       if history.destroy
         history = History.where( item_id: item.id, user_id: session[:user_id] ).order( "done_at DESC" ).first
-        
+
         if item.update_attributes( status: nil, last_done_at: history.done_at )
           message[:notice] = "CANCEL!!!"
         else
@@ -98,7 +111,7 @@ class ItemsController < ApplicationController
         end
       end
     end
-    
+
     redirect_to( { action: "index" }, message )
   end
 

@@ -43,11 +43,11 @@ a
   &:active
     color: #032f5b
     text-decoration: underline
-  
+
 
 .wrap
   +site_wrap
-  
+
 header
   background: #3d3c3a
   $header_height: 50px
@@ -60,7 +60,7 @@ header
         line-height: $header_height
         font:
           size: 16px
-          
+
 #body
   padding: 50px 0 0 0
   h1
@@ -68,7 +68,7 @@ header
       family: 'Oleo Script', cursive
       size: 60px
     text-align: center
-    
+
   .new_item
     padding: 30px 0 30px 0
     width: 560px
@@ -100,7 +100,7 @@ header
           padding: 0 0 0 8px
           input
             +pink_button
-          
+
   .items
     table
       clear: both
@@ -126,7 +126,7 @@ header
           &.gauge
             text-align: right
             white-space: nowrap
-            
+
   .histories
     table
       clear: both
@@ -145,6 +145,27 @@ header
           background: rgba(0, 0, 0, .2)
           &.button a
             +pink_button
+
+  .archives
+    table
+      clear: both
+      width: 800px
+      margin: 0 auto 30px auto
+      tr
+        th,
+        td
+          padding: 8px 12px
+          border: #5e81a6 solid 1px
+        th
+          background: rgba(0, 0, 0, .4)
+          text-align: center
+          white-space: nowrap
+        td
+          background: rgba(0, 0, 0, .2)
+          &.button a
+            +pink_button
+          &.restore
+            text-align: center
 
 footer
   padding: 40px 0 0 0
