@@ -29,6 +29,8 @@
       %th
       %th
       %th
+      %th
+
     - @items.each do |item|
       %tr
         %td= link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
