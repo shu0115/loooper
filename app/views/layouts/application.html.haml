@@ -15,6 +15,7 @@
               %span.name= current_user.name
             %li.top #{ link_to "Top", :root }
             %li.item #{ link_to "Item", controller: "items" }
+            %li.item #{ link_to "Archive", controller: "archives" }
             %li.item #{ link_to "History", controller: "histories" }
             %li.logout #{ link_to "Logout", logout_path }
           - else
