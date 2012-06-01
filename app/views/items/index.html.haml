@@ -12,7 +12,7 @@
         %li.number_field= f.number_field :life
     .actions
       %ul
-        %li.submit= f.submit t( "menu.create", default: "Create" ), disable_with: t( "menu.create", default: "Create" )
+        %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
 
 .items
   %table
