@@ -47,8 +47,8 @@
               %br
         %td.done.button= link_to 'Done', action: "done", id: item.id
         %td.done.button= link_to 'Archive', action: "archive", id: item.id
-        %td.cancel.button= link_to 'Cancel', action: "cancel", id: item.id
+        %td.cancel.button= link_to 'Cancel', { action: "cancel", id: item.id }, confirm: "キャンセルしてよろしいですか？"
         %td.button= link_to 'History', controller: "histories", item_id: item.id
         %td.button= link_to 'Edit', action: "edit", id: item.id
-        %td.button= link_to "Delete", { action: "destroy", id: item.id }, onclick: "return confirm('本当に削除してよろしいですか？');"
+        %td.button= link_to "Delete", { action: "destroy", id: item.id }, confirm: "本当に削除してよろしいですか？"
 
