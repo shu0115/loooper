@@ -3,6 +3,7 @@ class Item < ActiveRecord::Base
   attr_accessible :last_done_at, :life, :name, :user_id, :status, :archive_at
 
   belongs_to :user
+  has_many :histries
 
   # アーカイブ以外
   scope :not_archive, lambda{ where( "status != 'archive'" ) }
