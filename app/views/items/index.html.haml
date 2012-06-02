@@ -1,54 +1,6 @@
 %h1= link_to 'Listing Items', action: "index"
-
-.new_item
+.new
   = form_for :item, url: { action: "create" } do |f|
-    .field
-      %ul
-        %li.label= "Item"
-        %li.text_field= f.text_field :name
-    .field
-      %ul
-        %li.label= "Life"
-        %li.number_field= f.number_field :life
-    .actions
-      %ul
-        %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
-
+    = render 'form'
 .items
-  %table
-    %tr
-      %th User
-      %th Item ID
-      %th Name
-      %th Status
-      %th Life
-      %th Last done at
-      %th Gauge
-      %th
-      %th
-      %th
-      %th
-      %th
-      %th
-
-    - @items.each do |item|
-      %tr
-        %td= link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
-        %td= item.id
-        %td.nowrap= item.name
-        %td= item.status
-        %td= item.life
-        %td= item.last_done_at.blank? ? "" : item.last_done_at.strftime("%Y/%m/%d")
-        %td.gauge
-          -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
-          - 1.upto( item.get_rest_life.abs ) do |index|
-            %span><= Item.show_gauge( item.get_rest_life )
-            - if index > 0 and index % 10 == 0
-              %br
-        %td.done.button= link_to 'Done', action: "done", id: item.id
-        %td.done.button= link_to 'Archive', action: "archive", id: item.id
-        %td.cancel.button= link_to 'Cancel', { action: "cancel", id: item.id }, confirm: "キャンセルしてよろしいですか？"
-        %td.button= link_to 'History', controller: "histories", item_id: item.id
-        %td.button= link_to 'Edit', action: "edit", id: item.id
-        %td.button= link_to "Delete", { action: "destroy", id: item.id }, confirm: "本当に削除してよろしいですか？"
-
+  = render 'item'

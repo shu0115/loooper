@@ -6,31 +6,16 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body(class="#{controller_name} #{controller_name}_#{action_name}")
-    %header
-      .wrap
-        %ul
-          - if current_user
-            %li.user
-              %span.icon= link_to_unless( current_user.screen_name.blank?, image_tag( current_user.image, size: "20x20" ), "https://twitter.com/#!/#{current_user.screen_name}", target: "_blank" )
-              %span.name= current_user.name
-            %li.top #{ link_to "Top", :root }
-            %li.item #{ link_to "Item", controller: "items" }
-            %li.item #{ link_to "Archive", controller: "archives" }
-            %li.item #{ link_to "History", controller: "histories" }
-            %li.logout #{ link_to "Logout", logout_path }
-          - else
-            %li.login= link_to "Login", "/auth/#{DEFAULT_PROVIDER}"
     = simple_format( flash[:notice], style: "color: green;" ) unless flash[:notice].blank?
     = simple_format( flash[:alert], style: "color: red;" ) unless flash[:alert].blank?
-    #body
-      .wrap
+    - if current_user
+      %header
+        %h1.logo #{ link_to "#{APP_NAME}", :root }
+        = render 'shared/global_nav'
+      #body
         = yield
+    - else
+      %h1.logo #{ link_to "#{APP_NAME}", :root }
+      .login= link_to "Login", "/auth/#{DEFAULT_PROVIDER}"
     %footer
-      Developed by
-      = succeed ", " do
-        %a{ href: "https://twitter.com/#!/#{PROGRAMMER_NAME}/", target: "_blank"} @#{PROGRAMMER_NAME}
-      Designed by
-      = succeed ", " do
-        %a{ href: "https://twitter.com/#!/#{DESIGNER_NAME}/", target: "_blank"} @#{DESIGNER_NAME}
-      Licence by
-      %a{ href: "https://creativecommons.org/licenses/by-nc-sa/2.1/jp/", target: "_blank"} CC BY-NC-SA 2.1
+      = render 'shared/copy_right'

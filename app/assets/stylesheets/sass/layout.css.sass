@@ -1,0 +1,35 @@
+$basic_font_color: #063476
+$base-font-size: 13px
+$base-line-height: 18px
+
+$orange: #ecac51
+$light_orange: #f3bd71
+$blue: #7fc4d8
+$light_blue: #a6d9e8
+$pink: #ec5174
+$light_pink: #f96f8e
+$white: #f4f4f1
+$gray: #c0bfb9
+$brown: #a4a49b
+$dark_brown: #908f82
+
+
+$normal: #026aff
+$hover: #0297ff
+$active: #00749f
+$visited: #026aff
+$focus: #0297ff
+
+body
+  background: image_url("body.gif") $brown
+  color: $dark_brown
+  padding: 0 10px 0 0
+  font:
+    size: $base-font-size 
+  line-height: $base-line-height
+  width: 370px
+  margin: 0 auto
+
+
+a
+  +link-colors($normal, $hover, $active, $visited, $focus)
