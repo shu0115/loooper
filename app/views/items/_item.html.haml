@@ -1,8 +1,9 @@
 - @items.each do |item|
   .item
+    %p.user
+      = link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "40x40" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
     %ul
-      %li= link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
-      %li= item.name
+      %li.name= item.name
       %li.gauge
         -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
         - 1.upto( item.get_rest_life.abs ) do |index|

@@ -23,13 +23,25 @@ $focus: #0297ff
 body
   background: image_url("body.gif") $brown
   color: $dark_brown
-  padding: 0 10px 0 0
+  padding: 10px 10px 0 0
   font:
     size: $base-font-size 
   line-height: $base-line-height
   width: 370px
   margin: 0 auto
 
-
 a
   +link-colors($normal, $hover, $active, $visited, $focus)
+
+header
+  h1
+    a
+      display: block
+      float: right
+      text:
+        decoration: none
+      font: 
+        size: 36px
+      +link-colors($orange, $light_orange, $active, $orange, $focus)
+
+

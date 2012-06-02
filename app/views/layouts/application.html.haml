@@ -11,11 +11,12 @@
     - if current_user
       %header
         %h1.logo #{ link_to "#{APP_NAME}", :root }
-        = render 'shared/global_nav'
       #body
         = yield
+        = render 'shared/global_nav'
     - else
       %h1.logo #{ link_to "#{APP_NAME}", :root }
       .login= link_to "Login", "/auth/#{DEFAULT_PROVIDER}"
     %footer
       = render 'shared/copy_right'
+      

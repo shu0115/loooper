@@ -1,9 +1,87 @@
 body.items
-  .items
-    .item
+  .add
+    a
+      display: block
+      width: 40px
+      height: 40px
+      background: $gray
+      +border-radius(20px)
+      line-height: 40px
+      color: $dark_brown
+      text:
+        decoration: none
+        align: center
+      font:
+        size: 36px
+        weight: bold
+      
+  nav.items
+    +clearfix
+    padding: 0 0 12px 0
+    ul
+      float: right
+      width: 100%
+      li
+        a
+          display: block
+          font: 
+            size:  16px
+            weight: bold
+          text:
+            decoration: none
+            align: center 
+          +link-colors($white, $light_orange, $active, $white, $focus)
+          line-height: 32px
+          float: left
+          width: 118px
+          border:
+            top: solid 3px $gray
+            bottom: solid 3px $gray
+            right: solid 3px $gray
+      li.current
+        a
+          background: $blue
+          border:
+            top: solid 3px $light_blue
+            bottom: solid 3px $light_blue
+            right: solid 3px $light_blue
+          
+  div.items
+    div.item
       background: $white
       margin: 0 0 10px 0
+      padding: 6px 8px 6px 4px
+      clear: both
+      +clearfix
       border:
         top: solid 3px $gray
         right: solid 3px $gray
         bottom: solid 3px $gray
+      p.user
+        float: left
+        display: block
+        img
+          +border-radius(20px)
+      ul
+        float: right
+        width: 87%
+        li
+          display: block
+        li.name
+          font: 
+            size: 13px
+          line-height: 20px
+          height: 40px
+        li.gauge
+          background: $gray
+          height: 12px
+          +border-radius(6px)
+          overflow: hidden
+          span
+            display: block
+            text-indent: -9999px
+            height: 12px
+            width: 12px
+            background: $orange
+            float: left
+          
