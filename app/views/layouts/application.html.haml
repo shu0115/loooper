@@ -2,22 +2,24 @@
 %html
   %head
     %title= APP_NAME
+    %meta{:content => "width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0", :name => "viewport"}
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body(class="#{controller_name} #{controller_name}_#{action_name}")
-    = simple_format( flash[:notice], style: "color: green;" ) unless flash[:notice].blank?
-    = simple_format( flash[:alert], style: "color: red;" ) unless flash[:alert].blank?
-    - if current_user
-      %header
+    #wrap
+      = simple_format( flash[:notice], style: "color: green;" ) unless flash[:notice].blank?
+      = simple_format( flash[:alert], style: "color: red;" ) unless flash[:alert].blank?
+      - if current_user
+        %header
+          %h1.logo #{ link_to "#{APP_NAME}", :root }
+        #body
+          = yield
+          = render 'shared/global_nav'
+      - else
         %h1.logo #{ link_to "#{APP_NAME}", :root }
-      #body
-        = yield
-        = render 'shared/global_nav'
-    - else
-      %h1.logo #{ link_to "#{APP_NAME}", :root }
-      .login= link_to "Login", "/auth/#{DEFAULT_PROVIDER}"
-    %footer
-      = render 'shared/copy_right'
-      
+        .login= link_to "Login", "/auth/#{DEFAULT_PROVIDER}"
+      %footer#footer
+        = render 'shared/copy_right'
+    #border

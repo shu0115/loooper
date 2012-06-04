@@ -20,6 +20,9 @@
     $(".add a").click(function () {
       $(this).toggleClass("close");
       $(".new").toggle();
+      $("div.items").toggle();
+      $("nav.items").toggle();
+      $("#footer").toggle();
     });
     
     $(".item").click(function() {

@@ -15,8 +15,11 @@ body.items
         size: 36px
         weight: bold
       position: absolute
-      left: 0
+      left: 4px
       top: 16px
+      &:hover,
+      &:active
+        background: $white
     a.close
       background: $blue
       color: $dark_brown
@@ -28,11 +31,11 @@ body.items
     background: $white
     padding: 12px
     position: absolute
-    left: 0
+    left: 6px
     top: 74px
     z-index: 100
     border: $dark_brown solid 5px
-    width: 340px
+    width: 270px
     +border-radius(4px)
       
   nav.items
@@ -53,7 +56,7 @@ body.items
           +link-colors($white, $light_orange, $active, $white, $focus)
           line-height: 32px
           float: left
-          width: 118px
+          width: 32.5%
           border:
             top: solid 3px $gray
             bottom: solid 3px $gray
@@ -85,7 +88,7 @@ body.items
           +border-radius(20px)
       ul
         float: right
-        width: 87%
+        width: 84%
         li
           display: block
         li.name
@@ -115,4 +118,14 @@ body.items
         top: solid 3px $yellow
         right: solid 3px $yellow
         bottom: solid 3px $yellow
-          
+  .field
+    margin: 0 0 16px 0
+    .label
+      font:
+        size: 14px
+      margin: 0 0 4px 0
+    input
+      font:
+        size: 16px
+    textarea
+      width: 100%

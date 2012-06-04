@@ -24,17 +24,38 @@ $focus: #0297ff
 
 .hidden
   display: none !important
+textarea,
+input
+  margin: 0
+  padding: 0
+  border: none
 
 body
   background: image_url("body.gif") $brown
   color: $dark_brown
-  padding: 10px 10px 0 0
   font:
     size: $base-font-size 
   line-height: $base-line-height
-  width: 370px
+  width: 320px
   margin: 0 auto
   position: relative
+  font-family: 'Lucida Grande', Arial, sans-serif
+#wrap
+  width: 310px
+  padding: 10px 10px 0 0
+  position: relative
+  z-index: 50
+  border:
+    left: solid 1px rgba(255, 255, 255, .1)
+    right: solid 1px rgba(255, 255, 255, .1)
+#border
+  position: absolute
+  left: 0
+  top: 0
+  width: 20px
+  border: 
+    right: solid 8px $dark_brown
+  z-index: 0
 
 a
   +link-colors($normal, $hover, $active, $visited, $focus)
@@ -54,5 +75,32 @@ header
       +link-colors($orange, $light_orange, $active, $orange, $focus)
 #body
   clear: both
+
+#footer
+  padding: 40px 0 0 40px
+  color: $light_blue
+  nav.copy_right
+    ul
+      li
+        a
+          color: $light_blue
+          text-decoration: none
+    ul.created
+      margin: 0 0 10px 0
+      float: right
+      li
+        font: 
+          size: 11px
+        display: inline
+        text-align: right
+        padding: 0 0 0 6px
+    ul.copy_right
+      clear: both
+      li
+        font: 
+          size: 11px
+        display: block
+        text-align: right
+        padding: 0 6px
 
 
