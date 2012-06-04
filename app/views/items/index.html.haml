@@ -10,7 +10,7 @@
     %li
       = link_to "All", "/"
     %li
-      = link_to "Groups", "/"
+      = link_to "Groups", "/grouos"
 .items
   = render 'item'
 
@@ -20,6 +20,17 @@
     $(".add a").click(function () {
       $(this).toggleClass("close");
       $(".new").toggle();
+    });
+    
+    $(".item").click(function() {
+    window.location.href = ($("p.item_show a").attr("href"));
+    });
+    $(".items_show").addClass("hidden");
+    $(".item").hover(function(){
+    $(this).addClass("item_hover");
+    },
+    function(){
+    $(this).removeClass("item_hover");
     });
     
   });

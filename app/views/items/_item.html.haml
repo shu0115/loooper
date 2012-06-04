@@ -10,9 +10,11 @@
           %span><= Item.show_gauge( item.get_rest_life )
           - if index > 0 and index % 10 == 0
             %br
-      %li.done.button= link_to 'Done', action: "done", id: item.id
-      %li.done.button= link_to 'Archive', action: "archive", id: item.id
-      %li.cancel.button= link_to 'Cancel', { action: "cancel", id: item.id }, confirm: "キャンセルしてよろしいですか？"
-      %li.button= link_to 'History', controller: "histories", item_id: item.id
-      %li.button= link_to 'Edit', action: "edit", id: item.id
-      %li.button= link_to "Delete", { action: "destroy", id: item.id }, confirm: "本当に削除してよろしいですか？"
+      %li.items_show= link_to '/', 'Looopの詳細を見る'
+      
+      / %li.done= link_to 'Done', action: "done", id: item.id
+      / %li.done= link_to 'Archive', action: "archive", id: item.id
+      / %li.cancel= link_to 'Cancel', { action: "cancel", id: item.id }, confirm: "キャンセルしてよろしいですか？"
+      / %li= link_to 'History', controller: "histories", item_id: item.id
+      / %li= link_to 'Edit', action: "edit", id: item.id
+      /　%li= link_to "Delete", { action: "destroy", id: item.id }, confirm: "本当に削除してよろしいですか？"
