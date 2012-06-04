@@ -14,6 +14,26 @@ body.items
       font:
         size: 36px
         weight: bold
+      position: absolute
+      left: 0
+      top: 16px
+    a.close
+      background: $blue
+      color: $dark_brown
+      +rotate(45deg)
+      z-index: 101
+  .new
+    display: none
+    margin: -10px 0 10px 0
+    background: $white
+    padding: 12px
+    position: absolute
+    left: 0
+    top: 74px
+    z-index: 100
+    border: $dark_brown solid 5px
+    width: 340px
+    +border-radius(4px)
       
   nav.items
     +clearfix

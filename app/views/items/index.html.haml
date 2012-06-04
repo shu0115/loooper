@@ -1,5 +1,5 @@
 .add
-  = link_to "＋", "/"
+  = link_to "＋", "#"
 .new
   = form_for :item, url: { action: "create" } do |f|
     = render 'form'
@@ -13,3 +13,13 @@
       = link_to "Groups", "/"
 .items
   = render 'item'
+
+:javascript
+  $(document).ready(function(){
+    
+    $(".add a").click(function () {
+      $(this).toggleClass("close");
+      $(".new").toggle();
+    });
+    
+  });
