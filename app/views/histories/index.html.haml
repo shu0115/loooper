@@ -4,7 +4,7 @@
   %table
     %tr
       %th User
-      %th Item
+      %th Name
       %th Done at
     - @histories.each{ |history|
     %tr
@@ -14,6 +14,6 @@
     - }
 
 %br/
-= link_to "Items", { controller: "items" }
+= link_to t("Items"), { controller: "items" }
 |
 = link_to t( "menu.top", default: "Top" ), :root

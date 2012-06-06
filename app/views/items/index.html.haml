@@ -1,10 +1,10 @@
-%h1= link_to 'Listing Items', action: "index"
+%h1= link_to "Listing #{t("Items")}", action: "index"
 
 .new_item
   = form_for :item, url: { action: "create" } do |f|
     .field
       %ul
-        %li.label= "Item"
+        %li.label= t("Item")
         %li.text_field= f.text_field :name
     .field
       %ul
