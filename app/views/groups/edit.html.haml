@@ -1,0 +1,15 @@
+%h1 Editing Group
+
+-# 編集フォーム
+.edit_group
+  = form_for :group, url: { action: "update", id: @group.id } do |f|
+    .field
+      %ul
+        %li.label= "Name"
+        %li.text_field= f.text_field :name
+    .actions
+      %ul
+        %li.submit= f.submit t( "menu.update", default: "Update" ), disable_with: t( "menu.update", default: "Update" )
+
+= link_to t( "menu.show", default: "Show" ), action: "show", id: @group.id
+| #{link_to t( "menu.list", default: "List" ), action: "index"}

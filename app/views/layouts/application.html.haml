@@ -17,6 +17,7 @@
             %li.item #{ link_to t("Item"), controller: "items" }
             %li.item #{ link_to "Archive", controller: "archives" }
             %li.item #{ link_to "History", controller: "histories" }
+            %li.item #{ link_to "Group", controller: "groups" }
             %li.logout #{ link_to "Logout", logout_path }
           - else
             %li.login= link_to "Login", "/auth/#{DEFAULT_PROVIDER}"
