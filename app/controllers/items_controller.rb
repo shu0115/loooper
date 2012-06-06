@@ -25,7 +25,7 @@ class ItemsController < ApplicationController
 
     # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
     @default_group = Group.where( user_id: session[:user_id], name: current_user.screen_name ).first
-    @groups = Member.where( user_id: session[:user_id] ).order( "groups.name ASC" ).includes( :group ).map{ |m| m.group }
+    @groups = Member.where( user_id: session[:user_id] ).order( "groups.name DESC" ).includes( :group ).map{ |m| m.group }
   end
 
   #------#
