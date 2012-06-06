@@ -1,0 +1,20 @@
+- @items.each do |item|
+  .item
+    %p.user
+      = link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "40x40" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
+    %ul
+      %li.name= item.name
+      %li.gauge
+        -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
+        - 1.upto( item.get_rest_life.abs ) do |index|
+          %span><= Item.show_gauge( item.get_rest_life )
+          - if index > 0 and index % 10 == 0
+            %br
+      %li.items_show= link_to '/', 'Looopの詳細を見る'
+      
+      / %li.done= link_to 'Done', action: "done", id: item.id
+      / %li.done= link_to 'Archive', action: "archive", id: item.id
+      / %li.cancel= link_to 'Cancel', { action: "cancel", id: item.id }, confirm: "キャンセルしてよろしいですか？"
+      / %li= link_to 'History', controller: "histories", item_id: item.id
+      / %li= link_to 'Edit', action: "edit", id: item.id
+      /　%li= link_to "Delete", { action: "destroy", id: item.id }, confirm: "本当に削除してよろしいですか？"

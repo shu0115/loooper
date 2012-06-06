@@ -62,3 +62,45 @@
         %td.cancel.button= item.cancel_ok?( current_user ) ? link_to( 'Cancel', { action: "cancel", id: item.id, group_id: item.group_id, type: params[:type] }, confirm: "キャンセルしてよろしいですか？" ) : ""
         %td.button= item.is_owner?( current_user ) ? link_to( "Delete", { action: "destroy", id: item.id, type: params[:type] }, confirm: "本当に削除してよろしいですか？" ) : ""
 
+-# FIXME: ↓の内容を採用する(一時的にコメントアウト) 2012/06/07 Shun Matsumoto
+- if false
+.add
+  = link_to "＋", "#"
+.new
+  = form_for :item, url: { action: "create" } do |f|
+    = render 'form'
+%nav.items
+  %ul
+    %li.current
+      = link_to "Do now!", "/"
+    %li
+      = link_to "All", "/"
+    %li
+      = link_to "Groups", "/grouos"
+.items
+  = render 'item'
+
+:javascript
+  $(document).ready(function(){
+
+    $(".add a").click(function () {
+      $(this).toggleClass("close");
+      $(".new").toggle();
+      $("div.items").toggle();
+      $("nav.items").toggle();
+      $("#footer").toggle();
+    });
+
+    $(".item").click(function() {
+    window.location.href = ($("p.item_show a").attr("href"));
+    });
+    $(".items_show").addClass("hidden");
+    $(".item").hover(function(){
+    $(this).addClass("item_hover");
+    },
+    function(){
+    $(this).removeClass("item_hover");
+    });
+
+  });
+- end

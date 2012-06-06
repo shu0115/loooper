@@ -15,4 +15,7 @@
       %ul
         %li.submit= f.submit t( "menu.update", default: "Update" ), disable_with: t( "menu.update", default: "Update" )
 
+-# FIXME: ↓の_form.html.hamlの内容を採用する(一時的にコメントアウト) 2012/06/07 Shun Matsumoto
+-#= render 'form'
+
 = link_to t( "menu.list", default: "List" ), action: "index"
