@@ -14,8 +14,10 @@
 .groups
   %table
     %tr
-      %th User
+      %th Owner
       %th Name
+      %th Member
+      %th
       %th
       %th
 
@@ -23,8 +25,14 @@
     %tr
       %td= link_to_unless( group.user.try(:screen_name).blank?, image_tag( group.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{group.user.try(:screen_name)}", target: "_blank" )
       %td= group.name
+      %td
+        - members = group.members.sort{ |a, b| a.created_at <=> b.created_at }
+        - members.each{ |member|
+        = link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
+        -}
       %td.button= link_to 'Show', action: "show", id: group.id
-      %td.button= link_to 'Edit', action: "edit", id: group.id
+      %td.button= session[:user_id] == group.user_id ? link_to( 'Edit', action: "edit", id: group.id ) : ""
+      %td.button= group.delete_ok?( current_user ) ? link_to( "Delete", { action: "destroy", id: group.id }, confirm: "「#{group.name}」を削除します。よろしいですか？" ) : ""
     - }
 
 %br/

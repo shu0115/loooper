@@ -5,7 +5,8 @@ class GroupsController < ApplicationController
   # index #
   #-------#
   def index
-    @groups = Group.where( user_id: session[:user_id] ).order( "created_at DESC" ).includes( :user ).all
+    @groups = Member.where( user_id: session[:user_id] ).includes( :group ).order( "groups.created_at DESC" ).all.map{ |m| m.group }
+    #@groups = Group.where( user_id: session[:user_id] ).order( "created_at DESC" ).includes( :user, :members => :user ).all
     @group = Group.new
   end
 
@@ -13,19 +14,12 @@ class GroupsController < ApplicationController
   # show #
   #------#
   def show
-    @group = Group.where( id: params[:id], user_id: session[:user_id] ).includes( :members => :user ).first
-  end
+    @group = Group.where( id: params[:id] ).includes( :user, :members => :user ).first
+    @members = @group.members.sort{ |a, b| a.created_at <=> b.created_at }
+    member_ids = @members.map{ |m| m.user_id }
 
-=begin
-  #-----#
-  # new #
-  #-----#
-  def new
-    @group = Group.new
-
-    @submit = "create"
+    @not_member_users = User.where( "id NOT IN ( #{member_ids.join(',')} )" ).order( "created_at DESC" ).page( params[:page] ).per( 50 ).all
   end
-=end
 
   #------#
   # edit #
@@ -73,6 +67,23 @@ class GroupsController < ApplicationController
     @group.destroy
 
     redirect_to action: "index"
+  end
+
+  #------------#
+  # member_add #
+  #------------#
+  # メンバー追加
+  def member_add
+    user_id = params[:user_id]
+    group_id = params[:group_id]
+
+    unless Member.create( user_id: user_id, group_id: group_id ).blank?
+      message = { notice: "メンバーの追加が完了しました。" }
+    else
+      message = { alert: "メンバーの追加に失敗しました。" }
+    end
+
+    redirect_to( { action: "show", id: group_id }, message )
   end
 
 end

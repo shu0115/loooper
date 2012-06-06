@@ -44,6 +44,9 @@ a
     color: #032f5b
     text-decoration: underline
 
+span
+  &.button a
+    +pink_button
 
 .wrap
   +site_wrap
@@ -217,11 +220,36 @@ header
           background: rgba(0, 0, 0, .2)
           &.button a
             +pink_button
-          &.restore
+
+  .users
+    table
+      clear: both
+      width: 800px
+      margin: 0 auto 30px auto
+      tr
+        th,
+        td
+          padding: 8px 12px
+          border: #5e81a6 solid 1px
+        th
+          background: rgba(0, 0, 0, .4)
+          text-align: center
+          white-space: nowrap
+        td
+          background: rgba(0, 0, 0, .2)
+          &.button a
+            +pink_button
+          &.add
             text-align: center
 
   .nowrap
     white-space: nowrap
+
+span
+  &.button a
+    +pink_button
+    &.choose
+      color: #ff0
 
 footer
   padding: 40px 0 0 0

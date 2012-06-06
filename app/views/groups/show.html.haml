@@ -1,15 +1,35 @@
 
 %p
-  %b User:
-  = @group.user_id
+  %b Owner:
+  = link_to_unless( @group.user.blank?, image_tag( @group.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{@group.user.try(:screen_name)}", target: "_blank" )
 %p
   %b Name:
   = @group.name
 %p
   %b Members:
-  - @group.members.each{ |member|
+  - @members.each{ |member|
   = link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
   - }
+
+%br
+%br
+
+.users
+  %table
+    %tr
+      %th User
+      %th Name
+      %th ScreenName
+      %th
+
+    - @not_member_users.each{ |user|
+    %tr
+      %td= link_to_unless( user.screen_name.blank?, image_tag( user.image, size: "20x20" ), "https://twitter.com/#!/#{user.screen_name}", target: "_blank" )
+      %td= user.name
+      %td= user.screen_name
+      %td.add.button= @group.user_id == session[:user_id] ? link_to( 'Add', { action: "member_add", user_id: user.id, group_id: @group.id }, confirm: "「#{user.screen_name}」をメンバーに追加します。よろしいですか？" ) : ""
+    - }
+
 
 = link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @group.id
 | #{link_to t( "menu.list", default: "List" ), action: "index"}
