@@ -1,0 +1,33 @@
+%h1= link_to 'Listing Groups', action: "index"
+
+-# 新規作成フォーム
+.new_group
+  = form_for :group, url: { action: "create" } do |f|
+    .field
+      %ul
+        %li.label= "Group"
+        %li.text_field= f.text_field :name
+    .actions
+      %ul
+        %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
+
+.groups
+  %table
+    %tr
+      %th User
+      %th Name
+      %th
+      %th
+
+    - @groups.each{ |group|
+    %tr
+      %td= link_to_unless( group.user.try(:screen_name).blank?, image_tag( group.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{group.user.try(:screen_name)}", target: "_blank" )
+      %td= group.name
+      %td.button= link_to 'Show', action: "show", id: group.id
+      %td.button= link_to 'Edit', action: "edit", id: group.id
+    - }
+
+%br/
+= link_to t("Items"), { controller: "items" }
+|
+= link_to t( "menu.top", default: "Top" ), :root

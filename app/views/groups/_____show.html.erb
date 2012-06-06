@@ -1,0 +1,15 @@
+
+<p>
+  <b>User:</b>
+  <%= @group.user_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @group.name %>
+</p>
+
+
+
+<%= link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @group.id %>
+ | <%= link_to t( "menu.list", default: "List" ), action: "index" %>

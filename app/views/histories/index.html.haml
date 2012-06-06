@@ -6,6 +6,7 @@
       %th User
       %th Name
       %th Done at
+
     - @histories.each{ |history|
     %tr
       %td= link_to_unless( history.user.try(:screen_name).blank?, image_tag( history.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{history.user.try(:screen_name)}", target: "_blank" )

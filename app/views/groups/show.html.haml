@@ -1,0 +1,15 @@
+
+%p
+  %b User:
+  = @group.user_id
+%p
+  %b Name:
+  = @group.name
+%p
+  %b Members:
+  - @group.members.each{ |member|
+  = link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
+  - }
+
+= link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @group.id
+| #{link_to t( "menu.list", default: "List" ), action: "index"}

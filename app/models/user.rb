@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
 
   has_many :items
   has_many :histries
-  
+
+  has_many :groups
+  has_many :members
+
   private
 
   #---------------------------#
@@ -20,7 +23,11 @@ class User < ActiveRecord::Base
       user[:screen_name] = auth["info"]["nickname"]
       user[:image] = auth["info"]["image"]
     end
-    
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> dev1
     unless auth["credentials"].blank?
       user.token = auth['credentials']['token']
       user.secret = auth['credentials']['secret']

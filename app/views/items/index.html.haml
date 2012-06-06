@@ -1,5 +1,6 @@
 %h1= link_to "Listing #{t("Items")}", action: "index"
 
+-# 新規作成フォーム
 .new_item
   = form_for :item, url: { action: "create" } do |f|
     .field
@@ -14,6 +15,7 @@
       %ul
         %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
 
+-# アイテム一覧
 .items
   %table
     %tr

@@ -9,6 +9,9 @@ class SessionsController < ApplicationController
     user = User.where( provider: auth["provider"], uid: auth["uid"] ).first || User.create_with_omniauth( auth )
     session[:user_id] = user.id
 
+    # デフォルトグループ作成
+    Group.create_default( user )
+
     redirect_to( { controller: "items" }, notice: "ログインしました。" )
   end
 
