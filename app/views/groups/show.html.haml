@@ -1,23 +1,38 @@
 
+%h1= @group.name
+
 %p
   %b Owner:
   = link_to_unless( @group.user.blank?, image_tag( @group.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{@group.user.try(:screen_name)}", target: "_blank" )
 %p
-  %b Name:
-  = @group.name
-%p
   %b Members:
-  - @members.each{ |member|
-  = link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
-  - }
+  - @members.each do |member|
+    = link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
 %p
   %b Default:
   = @group.default_flag
 
 %br
-%br
 
-- unless @group.default_flag == true
+-# 新規作成フォーム
+.new_item
+  = form_for :item, url: { action: "create_item", group_id: @group.id } do |f|
+    .field
+      %ul
+        %li.label= t("Item")
+        %li.text_field= f.text_field :name
+    .field
+      %ul
+        %li.label= "Life"
+        %li.number_field= f.number_field :life
+
+    .actions
+      %ul
+        %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
+
+-# 追加可能ユーザ一覧
+追加可能ユーザ
+- if @group.default_flag != true and !@not_member_users.blank?
   .users
     %table
       %tr
@@ -26,13 +41,37 @@
         %th ScreenName
         %th
 
-      - @not_member_users.each{ |user|
+      - @not_member_users.each do |user|
+        %tr
+          %td= link_to_unless( user.screen_name.blank?, image_tag( user.image, size: "20x20" ), "https://twitter.com/#!/#{user.screen_name}", target: "_blank" )
+          %td= user.name
+          %td= user.screen_name
+          %td.add.button= @group.user_id == session[:user_id] ? link_to( 'Add', { action: "member_add", user_id: user.id, group_id: @group.id }, confirm: "「#{user.screen_name}」をメンバーに追加します。よろしいですか？" ) : ""
+
+
+-# グループ付属アイテム一覧
+グループ付属ループ
+.items
+  %table
+    %tr
+      %th User
+      %th Name
+      %th Life
+      %th Last done at
+      %th Gauge
+
+    - @items.each do |item|
       %tr
-        %td= link_to_unless( user.screen_name.blank?, image_tag( user.image, size: "20x20" ), "https://twitter.com/#!/#{user.screen_name}", target: "_blank" )
-        %td= user.name
-        %td= user.screen_name
-        %td.add.button= @group.user_id == session[:user_id] ? link_to( 'Add', { action: "member_add", user_id: user.id, group_id: @group.id }, confirm: "「#{user.screen_name}」をメンバーに追加します。よろしいですか？" ) : ""
-      - }
+        %td= link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
+        %td.nowrap= item.name
+        %td= item.life
+        %td= item.last_done_at.blank? ? "" : item.last_done_at.strftime("%Y/%m/%d")
+        %td.gauge
+          -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
+          - 1.upto( item.get_rest_life.abs ) do |index|
+            %span><= Item.show_gauge( item.get_rest_life )
+            - if index > 0 and index % 10 == 0
+              %br
 
 = link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @group.id
 | #{link_to t( "menu.list", default: "List" ), action: "index"}
