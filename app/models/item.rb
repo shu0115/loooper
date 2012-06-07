@@ -3,7 +3,7 @@ class Item < ActiveRecord::Base
   attr_accessible :last_done_at, :life, :name, :user_id, :status, :archive_at, :group_id
 
   belongs_to :user
-  has_many :histries
+  has_many :histories, :dependent => :delete_all
   belongs_to :group
 
   # アーカイブ以外

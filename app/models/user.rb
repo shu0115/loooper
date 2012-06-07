@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   attr_accessible :provider, :uid, :name, :screen_name, :image, :token, :secret
 
   has_many :items
-  has_many :histries
+  has_many :histories
 
   has_many :groups
   has_many :members

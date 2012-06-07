@@ -3,7 +3,7 @@ class Group < ActiveRecord::Base
 
   belongs_to :user
   has_many :members, :dependent => :delete_all
-  has_many :items
+  has_many :items, :dependent => :delete_all
 
   #------------#
   # delete_ok? #
@@ -11,7 +11,7 @@ class Group < ActiveRecord::Base
   # グループ削除許可判定
   def delete_ok?( user )
     return false unless self.user_id == user.id
-    return false if self.name == user.screen_name
+    return false if self.default_flag == true
     return true
   end
 

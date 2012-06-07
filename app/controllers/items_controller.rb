@@ -15,7 +15,7 @@ class ItemsController < ApplicationController
     else
       # 所属するグループのアイテムを取得
       group_ids = Member.where( user_id: session[:user_id] ).map{ |m| m.group_id }
-      @items = @items.where( group_id: group_ids )
+      @items = @items.where( group_id: group_ids ).where( "groups.default_flag != :default_flag", default_flag: true )
     end
 
     @item = Item.new( life: 7 )

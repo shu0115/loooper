@@ -32,7 +32,7 @@
         -}
       %td.button= link_to 'Show', action: "show", id: group.id
       %td.button= session[:user_id] == group.user_id ? link_to( 'Edit', action: "edit", id: group.id ) : ""
-      %td.button= group.delete_ok?( current_user ) ? link_to( "Delete", { action: "destroy", id: group.id }, confirm: "「#{group.name}」を削除します。よろしいですか？" ) : ""
+      %td.button= group.delete_ok?( current_user ) ? link_to( "Delete", { action: "destroy", id: group.id }, confirm: "「#{group.name}」を削除します。よろしいですか？(グループを削除すると、紐付くメンバー、ループアイテムも同時に削除されます。)" ) : ""
     - }
 
 %br/

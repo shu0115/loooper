@@ -108,7 +108,7 @@ class GroupsController < ApplicationController
       # 初期Done履歴作成
       History.create( user_id: @item.user_id, item_id: @item.id, done_at: @item.last_done_at )
     else
-      alert = "ループの作成に失敗しました。"
+      alert = "ループアイテムの作成に失敗しました。"
     end
 
     redirect_to( { action: "show", id: params[:group_id] }, alert: alert ) and return

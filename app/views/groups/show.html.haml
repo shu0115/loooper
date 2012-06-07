@@ -31,8 +31,8 @@
         %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
 
 -# 追加可能ユーザ一覧
-追加可能ユーザ
 - if @group.default_flag != true and !@not_member_users.blank?
+  追加可能ユーザ
   .users
     %table
       %tr
@@ -50,28 +50,29 @@
 
 
 -# グループ付属アイテム一覧
-グループ付属ループ
-.items
-  %table
-    %tr
-      %th User
-      %th Name
-      %th Life
-      %th Last done at
-      %th Gauge
-
-    - @items.each do |item|
+- unless @items.blank?
+  グループ付属ループ
+  .items
+    %table
       %tr
-        %td= link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
-        %td.nowrap= item.name
-        %td= item.life
-        %td= item.last_done_at.blank? ? "" : item.last_done_at.strftime("%Y/%m/%d")
-        %td.gauge
-          -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
-          - 1.upto( item.get_rest_life.abs ) do |index|
-            %span><= Item.show_gauge( item.get_rest_life )
-            - if index > 0 and index % 10 == 0
-              %br
+        %th User
+        %th Name
+        %th Life
+        %th Last done at
+        %th Gauge
+
+      - @items.each do |item|
+        %tr
+          %td= link_to_unless( item.user.try(:screen_name).blank?, image_tag( item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{item.user.try(:screen_name)}", target: "_blank" )
+          %td.nowrap= item.name
+          %td= item.life
+          %td= item.last_done_at.blank? ? "" : item.last_done_at.strftime("%Y/%m/%d")
+          %td.gauge
+            -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
+            - 1.upto( item.get_rest_life.abs ) do |index|
+              %span><= Item.show_gauge( item.get_rest_life )
+              - if index > 0 and index % 10 == 0
+                %br
 
 = link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @group.id
 | #{link_to t( "menu.list", default: "List" ), action: "index"}
