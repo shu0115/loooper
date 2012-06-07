@@ -11,6 +11,11 @@
       %ul
         %li.label= "Life"
         %li.number_field= f.number_field :life
+    .field
+      %ul
+        %li.label= "Group"
+        %li.select= f.select :group_id, @groups.map{ |g| [g.name, g.id] }, selected: @select_group
+
     .actions
       %ul
         %li.submit= f.submit t( "menu.update", default: "Update" ), disable_with: t( "menu.update", default: "Update" )

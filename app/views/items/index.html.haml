@@ -35,6 +35,7 @@
       %th Life
       %th Last done at
       %th Gauge
+      %th Done Count
       %th
       %th
       %th
@@ -55,10 +56,11 @@
             %span><= Item.show_gauge( item.get_rest_life )
             - if index > 0 and index % 10 == 0
               %br
+        %td= item.histories.blank? ? "" : item.histories.length
         %td.done.button= link_to( 'Done', action: "done", id: item.id, group_id: item.group_id, type: params[:type] )
         %td.button= item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: item.id ) : ""
         %td.button= link_to( 'History', controller: "histories", item_id: item.id )
         %td.done.button= item.is_owner?( current_user ) ? link_to( 'Archive', action: "archive", id: item.id, type: params[:type] ) : ""
-        %td.cancel.button= item.cancel_ok?( current_user ) ? link_to( 'Cancel', { action: "cancel", id: item.id, group_id: item.group_id, type: params[:type] }, confirm: "キャンセルしてよろしいですか？" ) : ""
+        %td.cancel.button= item.cancel_ok?( current_user, item.histories ) ? link_to( 'Cancel', { action: "cancel", id: item.id, group_id: item.group_id, type: params[:type] }, confirm: "キャンセルしてよろしいですか？" ) : ""
         %td.button= item.is_owner?( current_user ) ? link_to( "Delete", { action: "destroy", id: item.id, type: params[:type] }, confirm: "本当に削除してよろしいですか？(ループアイテムを削除すると、紐付く完了履歴も同時に削除されます。)" ) : ""
 

@@ -5,6 +5,10 @@ class Group < ActiveRecord::Base
   has_many :members, :dependent => :delete_all
   has_many :items, :dependent => :delete_all
 
+  # ----- scope ----- #
+  # デフォルトグループ
+  scope :default, lambda{ |user_id| where( default_flag: true, user_id: user_id ) }
+
   #------------#
   # delete_ok? #
   #------------#
@@ -30,6 +34,16 @@ class Group < ActiveRecord::Base
       # デフォルトメンバー作成
       Member.create( user_id: user.id, group_id: group.id )
     end
+  end
+
+  #--------------------#
+  # self.get_my_groups #
+  #--------------------#
+  def self.get_my_groups( user_id )
+    default_group = Group.default( user_id ).first
+    groups = Member.where( user_id: user_id ).order( "groups.name ASC" ).includes( :group ).map{ |m| m.group }
+
+    return groups, default_group
   end
 
 end

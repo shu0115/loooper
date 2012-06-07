@@ -7,7 +7,7 @@ class ItemsController < ApplicationController
   def index
     @type = params[:type].presence || "mine"
 
-    @items = Item.not_archive.includes( :user, :group )
+    @items = Item.not_archive.includes( :user, :group, :histories )
 
     if @type == "mine"
       # 自分のアイテムを取得
@@ -24,8 +24,7 @@ class ItemsController < ApplicationController
     @items.sort!{ |a, b| a.get_rest_life <=> b.get_rest_life }
 
     # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
-    @default_group = Group.where( user_id: session[:user_id], name: current_user.screen_name ).first
-    @groups = Member.where( user_id: session[:user_id] ).order( "groups.name ASC" ).includes( :group ).map{ |m| m.group }
+    @groups, @default_group = Group.get_my_groups( session[:user_id] )
   end
 
   #------#
@@ -33,6 +32,10 @@ class ItemsController < ApplicationController
   #------#
   def edit
     @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+
+    # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
+    @groups, default_group = Group.get_my_groups( session[:user_id] )
+    @select_group = @item.group_id.blank? ? default_group.id : @item.group_id
   end
 
   #--------#

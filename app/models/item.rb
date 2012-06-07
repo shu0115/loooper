@@ -6,6 +6,7 @@ class Item < ActiveRecord::Base
   has_many :histories, :dependent => :delete_all
   belongs_to :group
 
+  # ----- scope ----- #
   # アーカイブ以外
   scope :not_archive, lambda{ where( "status != 'archive'" ) }
 
@@ -33,13 +34,18 @@ class Item < ActiveRecord::Base
   #------------#
   # cancel_ok? #
   #------------#
-  def cancel_ok?( user )
+  def cancel_ok?( user, histories )
+    histories.sort!{ |a, b| b.done_at <=> a.done_at }
+
     # 最新履歴のユーザIDが一致しなければ
-    history = History.where( item_id: self.id ).order( "done_at DESC" ).first
-    return false unless history.user_id == user.id
+#    history = History.where( item_id: self.id ).order( "done_at DESC" ).first
+    last_history = histories.last
+#    return false unless history.user_id == user.id
+    return false unless last_history.user_id == user.id
 
     # 最新履歴以外に履歴が存在しなければ
-    unless History.where( item_id: self.id ).where( "id != #{history.id}" ).count > 0
+#    unless History.where( item_id: self.id ).where( "id != #{history.id}" ).count > 0
+    unless histories.length >= 2
       return false
     end
 
