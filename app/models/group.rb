@@ -21,6 +21,14 @@ class Group < ActiveRecord::Base
 
   private
 
+  #-----------------#
+  # self.default_id #
+  #-----------------#
+  # デフォルトグループのIDを返す
+  def self.default_id( user_id )
+    self.default( user_id ).first.try(:id)
+  end
+
   #---------------------#
   # self.create_default #
   #---------------------#
@@ -36,14 +44,22 @@ class Group < ActiveRecord::Base
     end
   end
 
-  #--------------------#
-  # self.get_my_groups #
-  #--------------------#
-  def self.get_my_groups( user_id )
-    default_group = Group.default( user_id ).first
+  #-----------------------#
+  # self.get_entry_groups #
+  #-----------------------#
+  def self.get_entry_groups( user_id )
+    # 自分がメンバーに登録されているグループ取得
     groups = Member.where( user_id: user_id ).order( "groups.name ASC" ).includes( :group ).map{ |m| m.group }
+    return groups
+  end
 
-    return groups, default_group
+  #--------------------------#
+  # self.get_entry_group_ids #
+  #--------------------------#
+  def self.get_entry_group_ids( user_id )
+    # 自分がメンバーに登録されているグループのID取得
+    group_ids = Member.where( user_id: user_id ).order( "groups.name ASC" ).includes( :group ).map{ |m| m.group.id }
+    return group_ids
   end
 
 end

@@ -72,17 +72,17 @@ class GroupsController < ApplicationController
   # destroy #
   #---------#
   def destroy
-    @group = Group.where( id: params[:id], user_id: session[:user_id] ).first
-    @group.destroy
+    group = Group.where( id: params[:id], user_id: session[:user_id] ).first
+    group.destroy
 
     redirect_to action: "index"
   end
 
   #------------#
-  # member_add #
+  # add_member #
   #------------#
   # メンバー追加
-  def member_add
+  def add_member
     user_id = params[:user_id]
     group_id = params[:group_id]
 
@@ -93,6 +93,23 @@ class GroupsController < ApplicationController
     end
 
     redirect_to( { action: "show", id: group_id }, message )
+  end
+
+  #---------------#
+  # delete_member #
+  #---------------#
+  # メンバー削除
+  def delete_member
+    member_id = params[:member_id]
+    group_id = params[:group_id]
+
+    group = Member.where( id: member_id, group_id: group_id ).first
+
+    unless group.destroy
+      alert = "メンバーの削除に失敗しました。"
+    end
+
+    redirect_to( { action: "show", id: group_id }, alert: alert )
   end
 
   #-------------#

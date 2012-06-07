@@ -11,11 +11,13 @@ class ItemsController < ApplicationController
 
     if @type == "mine"
       # 自分のアイテムを取得
-      @items = @items.where( user_id: session[:user_id] )
+#      @items = @items.where( user_id: session[:user_id] )
+      @items = @items.where( group_id: Group.default_id( session[:user_id] ) )
     else
       # 所属するグループのアイテムを取得
-      group_ids = Member.where( user_id: session[:user_id] ).map{ |m| m.group_id }
-      @items = @items.where( group_id: group_ids ).where( "groups.default_flag != :default_flag", default_flag: true )
+#      group_ids = Member.where( user_id: session[:user_id] ).map{ |m| m.group_id }
+#      @items = @items.where( group_id: group_ids ).where( "groups.default_flag != :default_flag", default_flag: true )
+      @items = @items.where( group_id: Group.get_entry_group_ids( session[:user_id] ) ).where( "group_id != :default_id", default_id: Group.default_id( session[:user_id] ) )
     end
 
     @item = Item.new( life: 7 )
@@ -24,7 +26,8 @@ class ItemsController < ApplicationController
     @items.sort!{ |a, b| a.get_rest_life <=> b.get_rest_life }
 
     # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
-    @groups, @default_group = Group.get_my_groups( session[:user_id] )
+    @default_group = Group.default( session[:user_id] ).first
+    @groups = Group.get_entry_groups( session[:user_id] )
   end
 
   #------#
@@ -34,7 +37,8 @@ class ItemsController < ApplicationController
     @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
 
     # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
-    @groups, default_group = Group.get_my_groups( session[:user_id] )
+    default_group = Group.default( session[:user_id] ).first
+    @groups = Group.get_entry_groups( session[:user_id] )
     @select_group = @item.group_id.blank? ? default_group.id : @item.group_id
   end
 
