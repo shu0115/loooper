@@ -24,7 +24,7 @@
     - @groups.each{ |group|
     %tr
       %td= link_to_unless( group.user.try(:screen_name).blank?, image_tag( group.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{group.user.try(:screen_name)}", target: "_blank" )
-      %td= group.name
+      %td= "#{group.default_flag == true ? "★" : ""} #{group.name}"
       %td
         - members = group.members.sort{ |a, b| a.created_at <=> b.created_at }
         - members.each{ |member|
