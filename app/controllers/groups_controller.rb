@@ -73,9 +73,14 @@ class GroupsController < ApplicationController
   #---------#
   def destroy
     group = Group.where( id: params[:id], user_id: session[:user_id] ).first
-    group.destroy
 
-    redirect_to action: "index"
+    if group.destroy
+      message = { notice: "「#{group.name}」グループを削除しました。" }
+    else
+      message = { alert: "「#{group.name}」グループの削除に失敗しました。" }
+    end
+
+    redirect_to( { action: "index" }, message )
   end
 
   #------------#

@@ -14,6 +14,8 @@
 
 %br
 
+%p.button= @group.delete_ok?( current_user ) ? link_to( "Delete", { action: "destroy", id: @group.id }, confirm: "「#{@group.name}」を削除します。よろしいですか？(グループを削除すると、紐付くメンバー、ループアイテムも同時に削除されます。)" ) : ""
+
 -# 新規作成フォーム
 .new_item
   = form_for :item, url: { action: "create_item", group_id: @group.id } do |f|
@@ -51,7 +53,7 @@
 
 -# グループ付属アイテム一覧
 - unless @items.blank?
-  グループ付属ループ
+  グループ付属ループアイテム
   .items
     %table
       %tr

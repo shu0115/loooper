@@ -1,9 +1,9 @@
 # From https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/ja.yml
 ja:
-  Item: "Loop"
-  Items: "Loops"
-  item: "loop"
-  items: "loops"
+  Item: "LoopItem"
+  Items: "LoopItems"
+  item: "loopitem"
+  items: "loopitems"
 
   date:
     abbr_day_names:
