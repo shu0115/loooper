@@ -49,6 +49,7 @@ gem 'haml'
 gem 'kaminari'
 gem 'omniauth-twitter'
 gem 'tapp'
+gem "rails_config"
 
 # Compass
 group :assets do

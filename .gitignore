@@ -17,3 +17,7 @@
 # Add
 .DS_Store
 /config/initializers/local_setting.rb
+
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml

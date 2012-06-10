@@ -122,6 +122,8 @@ GEM
       activesupport (= 3.2.5)
       bundler (~> 1.0)
       railties (= 3.2.5)
+    rails_config (0.3.0)
+      activesupport (>= 3.0)
     railties (3.2.5)
       actionpack (= 3.2.5)
       activesupport (= 3.2.5)
@@ -176,6 +178,7 @@ DEPENDENCIES
   omniauth-twitter
   pg
   rails (= 3.2.5)
+  rails_config
   sass-rails (~> 3.2.3)
   sqlite3
   tapp
