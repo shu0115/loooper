@@ -66,6 +66,10 @@ class LimitItemsController < ApplicationController
     # アイテム取得
     limit_item = LimitItem.where( id: params[:id], done_user_id: session[:user_id] ).first
 
+    if limit_item.blank?
+      redirect_to( { action: "index", group_id: params[:group_id], done_flag: params[:done_flag] }, alert: "完了をキャンセル出来ませんでした。" ) and return
+    end
+
     # アイテム更新
     if limit_item.update_attributes( status: "", last_done_at: nil )
       redirect_to( { action: "index", group_id: limit_item.group_id, done_flag: params[:done_flag] }, notice: "完了をキャンセルしました。" ) and return
