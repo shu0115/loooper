@@ -24,9 +24,9 @@ class Group < ActiveRecord::Base
   #-----------------#
   # self.default_id #
   #-----------------#
-  # デフォルトグループのIDを返す
+  # デフォルトグループのグループIDを返す
   def self.default_id( user_id )
-    self.default( user_id ).first.try(:id)
+    self.default( user_id ).select("id").first.try(:id)
   end
 
   #---------------------#

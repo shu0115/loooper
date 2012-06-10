@@ -53,11 +53,11 @@ class ItemsController < ApplicationController
     if @item.save
       # 初期Done履歴作成
       History.create( user_id: @item.user_id, item_id: @item.id, done_at: @item.last_done_at )
-
-      redirect_to( { action: "index" } ) and return
     else
-      render action: "new" and return
+      alert = "アイテムの作成に失敗しました。"
     end
+
+    redirect_to( { action: "index" } ) and return
   end
 
   #--------#
