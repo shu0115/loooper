@@ -48,8 +48,8 @@
       %tr
         %td= link_to_unless( limit_item.user.try(:screen_name).blank?, image_tag( limit_item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{limit_item.user.try(:screen_name)}", target: "_blank" )
         %td.nowrap= limit_item.name
-        %td= limit_item.deadline.blank? ? "" : limit_item.deadline.strftime("%Y/%m/%d") + " (#{Settings.weekday[limit_item.deadline.wday]})"
-        %td.gauge
+        %td.nowrap= limit_item.deadline.blank? ? "" : limit_item.deadline.strftime("%Y/%m/%d") + " (#{Settings.weekday[limit_item.deadline.wday]})"
+        %td.nowrap.gauge
           -# 残日数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
           = limit_item.show_percent_bar( limit_item.get_rest_date )
           -if false
