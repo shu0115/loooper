@@ -24,8 +24,10 @@
 %span.button= link_to( "Done", { action: "index", group_id: @group_id, done_flag: (@done_flag == "done" ? "not_done" : "done" )  }, class: (@done_flag == "done" ? "choose" : "" ) )
 
 -# グループ一覧
+%span.button= link_to( @default_group.name, { action: "index", group_id: @default_group.id, done_flag: @done_flag }, class: (@default_group.id.to_s == @group_id.to_s ? "choose" : "" ) )
 - @groups.each do |group|
-  %span.button= link_to( group.name, { action: "index", group_id: group.id, done_flag: @done_flag }, class: (group.id.to_s == @group_id.to_s ? "choose" : "" ) )
+  - unless group.id == @default_group.id
+    %span.button= link_to( group.name, { action: "index", group_id: group.id, done_flag: @done_flag }, class: (group.id.to_s == @group_id.to_s ? "choose" : "" ) )
 %br
 %br
 

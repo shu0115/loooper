@@ -8,8 +8,10 @@ class LimitItemsController < ApplicationController
     @done_flag = params[:done_flag].presence || "not_done"
 
     # グループ取得
+    @default_group = Group.default( session[:user_id] ).first
     @groups = Group.get_entry_groups( session[:user_id] )
-    @group_id = params[:group_id].presence || Group.default_id( session[:user_id] )
+#    @group_id = params[:group_id].presence || Group.default_id( session[:user_id] )
+    @group_id = params[:group_id].presence || @default_group.id
 
     # アイテム一覧
     @limit_items = LimitItem.order( "deadline ASC" ).includes( :user, :group, :histories )
