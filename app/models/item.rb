@@ -38,6 +38,8 @@ class Item < ActiveRecord::Base
     histories.sort!{ |a, b| b.done_at <=> a.done_at }
     last_history = histories.last
 
+    return false if histories.blank? or last_history.blank?
+
     # 最新履歴のユーザIDが一致しなければ
     return false unless last_history.user_id == user.id
 
