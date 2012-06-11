@@ -14,9 +14,6 @@ class LimitItem < Item
     rest_date = (deadline - today)
 
     created_at = Date.new( self.created_at.year, self.created_at.month, self.created_at.day )
-    print "[ created_at ] : " ; p (deadline - created_at).to_i ;
-    print "[ rest_date ] : " ; p rest_date.to_i ;
-    print "[ パーセント ] : " ; p (rest_date.to_f / (deadline - created_at).to_f) ;
 
     return rest_date
   end
@@ -24,8 +21,16 @@ class LimitItem < Item
   #------------------#
   # show_percent_bar #
   #------------------#
-  # 消化率バーを表示する
+  # 残日数バーを表示する(10日が1ゲージ分)
   def show_percent_bar( rest_date )
+    show_bar = ""
+    rest_per = (rest_date / 10).to_i
+    (10 - rest_per).times{ |i| show_bar += "■" }
+    rest_per.times{ |i| show_bar += "□" }
+
+    return show_bar
+
+=begin
     show_bar = ""
     created_date = Date.new( self.created_at.year, self.created_at.month, self.created_at.day )
     deadline = Date.new( self.deadline.year, self.deadline.month, self.deadline.day )
@@ -35,6 +40,7 @@ class LimitItem < Item
     rest_bar.times{ |i| show_bar += "□" }         # 残日数率
 
     return show_bar
+=end
   end
 
 end
