@@ -20,7 +20,7 @@
       %ul
         %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
 
--# Doneフラグ
+-# Doneフラグリンク
 %span.button= link_to( "Done", { action: "index", group_id: @group_id, done_flag: (@done_flag == "done" ? "not_done" : "done" )  }, class: (@done_flag == "done" ? "choose" : "" ) )
 
 -# グループ一覧

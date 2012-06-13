@@ -5,10 +5,18 @@ class ItemsController < ApplicationController
   # index #
   #-------#
   def index
-    @type = params[:type].presence || "mine"
+    # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
+    @default_group = Group.default( session[:user_id] ).first
+    @groups = Group.get_entry_groups( session[:user_id] )
 
-    @items = Item.not_archive.includes( :user, :group, :histories )
+#    @type = params[:type].presence || "mine"
+    @group_id = params[:group_id].presence || @default_group.id
 
+#    @items = Item.not_archive.includes( :user, :group, :histories )
+    @items = LoopItem.not_archive.includes( :user, :group, :histories )
+    @items = @items.where( group_id: @group_id )
+
+=begin
     if @type == "mine"
       # 自分のアイテムを取得
 #      @items = @items.where( user_id: session[:user_id] )
@@ -19,22 +27,21 @@ class ItemsController < ApplicationController
 #      @items = @items.where( group_id: group_ids ).where( "groups.default_flag != :default_flag", default_flag: true )
       @items = @items.where( group_id: Group.get_entry_group_ids( session[:user_id] ) ).where( "group_id != :default_id", default_id: Group.default_id( session[:user_id] ) )
     end
+=end
 
-    @item = Item.new( life: 7 )
+#    @item = Item.new( life: 7 )
+    @item = LoopItem.new( life: 7 )
 
     # 残ライフが少ない順にソート
     @items.sort!{ |a, b| a.get_rest_life <=> b.get_rest_life }
-
-    # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
-    @default_group = Group.default( session[:user_id] ).first
-    @groups = Group.get_entry_groups( session[:user_id] )
   end
 
   #------#
   # edit #
   #------#
   def edit
-    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+#    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+    @item = LoopItem.where( user_id: session[:user_id], id: params[:id] ).first
 
     # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
     default_group = Group.default( session[:user_id] ).first
@@ -46,25 +53,27 @@ class ItemsController < ApplicationController
   # create #
   #--------#
   def create
-    @item = Item.new( params[:item] )
-    @item.user_id = session[:user_id]
-    @item.last_done_at = Time.now
+#    @item = Item.new( params[:item] )
+    item = LoopItem.new( params[:item] )
+    item.user_id = session[:user_id]
+    item.last_done_at = Time.now
 
-    if @item.save
+    if item.save
       # 初期Done履歴作成
-      History.create( user_id: @item.user_id, item_id: @item.id, done_at: @item.last_done_at )
+      History.create( user_id: item.user_id, item_id: item.id, done_at: item.last_done_at )
     else
       alert = "アイテムの作成に失敗しました。"
     end
 
-    redirect_to( { action: "index" } ) and return
+    redirect_to( { action: "index", group_id: item.group_id }, alert: alert ) and return
   end
 
   #--------#
   # update #
   #--------#
   def update
-    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+#    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+    @item = LoopItem.where( user_id: session[:user_id], id: params[:id] ).first
 
     if @item.update_attributes( params[:item] )
       redirect_to( { action: "index" }, notice: 'Update!' ) and return
@@ -77,10 +86,11 @@ class ItemsController < ApplicationController
   # destroy #
   #---------#
   def destroy
-    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
-    @item.destroy
+#    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+    item = LoopItem.where( user_id: session[:user_id], id: params[:id] ).first
+    item.destroy
 
-    redirect_to( action: "index", type: params[:type] ) and return
+    redirect_to( action: "index", group_id: item.group_id ) and return
   end
 
   #------#
@@ -91,8 +101,8 @@ class ItemsController < ApplicationController
 
     redirect_to( { action: "index" }, alert: "メンバーに含まれていません。" ) and return if member.blank?
 
-#    item = Item.where( user_id: session[:user_id], id: params[:id] ).first
-    item = Item.where( id: params[:id], group_id: member.group_id ).first
+#    item = Item.where( id: params[:id], group_id: member.group_id ).first
+    item = LoopItem.where( id: params[:id], group_id: member.group_id ).first
 
     message = Hash.new
 
@@ -105,20 +115,21 @@ class ItemsController < ApplicationController
       message[:alert] = "ERROR!!!"
     end
 
-    redirect_to( { action: "index", type: params[:type] }, message ) and return
+    redirect_to( { action: "index", group_id: item.group_id }, message ) and return
   end
 
   #---------#
   # archive #
   #---------#
   def archive
-    item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+#    item = Item.where( user_id: session[:user_id], id: params[:id] ).first
+    item = LoopItem.where( user_id: session[:user_id], id: params[:id] ).first
 
     unless item.update_attributes( status: "archive", archive_at: Time.now )
       alert = "Archive Error."
     end
 
-    redirect_to( { action: "index", type: params[:type] }, alert: alert ) and return
+    redirect_to( { action: "index", group_id: item.group_id }, alert: alert ) and return
   end
 
   #--------#
@@ -130,7 +141,8 @@ class ItemsController < ApplicationController
     redirect_to( { action: "index" }, alert: "メンバーに含まれていません。" ) and return if member.blank?
 
     message = Hash.new
-    item = Item.where( id: params[:id], group_id: member.group_id ).first
+#    item = Item.where( id: params[:id], group_id: member.group_id ).first
+    item = LoopItem.where( id: params[:id], group_id: member.group_id ).first
     history = History.where( item_id: item.id, user_id: session[:user_id] ).order( "done_at DESC" ).first
 
     redirect_to( { action: "index" }, alert: "該当する履歴がありません。" ) and return if history.blank?
@@ -155,7 +167,7 @@ class ItemsController < ApplicationController
       end
     end
 
-    redirect_to( { action: "index", type: params[:type] }, message ) and return
+    redirect_to( { action: "index", group_id: item.group_id }, message ) and return
   end
 
 end
