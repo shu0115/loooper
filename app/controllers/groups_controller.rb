@@ -6,7 +6,6 @@ class GroupsController < ApplicationController
   #-------#
   def index
     @groups = Member.where( user_id: session[:user_id] ).includes( :group ).order( "groups.created_at DESC" ).all.map{ |m| m.group }
-    #@groups = Group.where( user_id: session[:user_id] ).order( "created_at DESC" ).includes( :user, :members => :user ).all
     @group = Group.new
   end
 

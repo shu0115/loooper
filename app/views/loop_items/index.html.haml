@@ -20,9 +20,6 @@
       %ul
         %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
 
-%span.button=# link_to( '自分', { action: "index", type: "mine" }, class: (@type == "mine" ? "choose" : "" ) )
-%span.button=# link_to( 'グループ', { action: "index", type: "group" }, class: (@type == "group" ? "choose" : "" ) )
-
 -# グループ一覧
 %span.button= link_to( @default_group.name, { action: "index", group_id: @default_group.id }, class: (@default_group.id.to_s == @group_id.to_s ? "choose" : "" ) )
 - @groups.each do |group|

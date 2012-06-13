@@ -10,7 +10,6 @@ class LimitItemsController < ApplicationController
     # グループ取得
     @default_group = Group.default( session[:user_id] ).first
     @groups = Group.get_entry_groups( session[:user_id] )
-#    @group_id = params[:group_id].presence || Group.default_id( session[:user_id] )
     @group_id = params[:group_id].presence || @default_group.id
 
     # アイテム一覧
@@ -84,7 +83,6 @@ class LimitItemsController < ApplicationController
   def edit
     @done_flag = params[:done_flag]
 
-#    @item = Item.where( user_id: session[:user_id], id: params[:id] ).first
     @limit_item = LimitItem.where( user_id: session[:user_id], id: params[:id] ).first
 
     # グループ取得

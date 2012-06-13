@@ -54,12 +54,12 @@ class LoopItemsController < ApplicationController
   # update #
   #--------#
   def update
-    @loop_item = LoopItem.where( user_id: session[:user_id], id: params[:id] ).first
+    loop_item = LoopItem.where( user_id: session[:user_id], id: params[:id] ).first
 
-    if @loop_item.update_attributes( params[:loop_item] )
+    if loop_item.update_attributes( params[:loop_item] )
       redirect_to( { action: "index" }, notice: 'Update!' ) and return
     else
-      render action: "edit", id: params[:id] and return
+      redirect_to( { action: "index", id: params[:id] }, alert: "アイテムの更新に失敗しました。" ) and return
     end
   end
 

@@ -19,6 +19,14 @@ class Group < ActiveRecord::Base
     return true
   end
 
+  #-----------#
+  # is_owner? #
+  #-----------#
+  def is_owner?( user )
+    return true if self.user_id == user.id
+    return false
+  end
+
   private
 
   #-----------------#
