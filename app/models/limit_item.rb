@@ -25,7 +25,11 @@ class LimitItem < Item
   def show_percent_bar( rest_date )
     show_bar = ""
     rest_per = (rest_date / 10).to_i
-    (10 - rest_per).times{ |i| show_bar += "■" }
+    (10 - rest_per).times{ |i|
+      if i < 10
+        show_bar += "■"
+      end
+    }
     rest_per.times{ |i| show_bar += "□" }
 
     return show_bar
