@@ -12,9 +12,9 @@
           - if current_user
             %li
               %h1.logo #{ link_to "#{APP_NAME}", :root }
-            %li.item #{ link_to "Loop", controller: "items" }
+            %li.item #{ link_to "Loop", controller: "loop_items" }
             %li.item #{ link_to "Limit", controller: "limit_items" }
-            %li.item #{ link_to "Archive", controller: "archives" }
+            -#%li.item #{ link_to "Archive", controller: "archives" }
             %li.item #{ link_to "History", controller: "histories" }
             %li.item #{ link_to "Group", controller: "groups" }
             %li.logout #{ link_to "Logout", logout_path }
