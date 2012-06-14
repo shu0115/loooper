@@ -17,6 +17,8 @@ class GroupsController < ApplicationController
     @members = @group.members.sort{ |a, b| a.created_at <=> b.created_at }
     member_ids = @members.map{ |m| m.user_id }
 
+    redirect_to( { action: "index" }, alert: "メンバーに含まれていません。" ) if member_ids.index( session[:user_id] ).nil?
+
     # 追加可能ユーザ取得
     @not_member_users = User.where( "id NOT IN ( #{member_ids.join(',')} )" ).order( "created_at DESC" ).page( params[:page] ).per( 50 ).all
 
@@ -119,15 +121,16 @@ class GroupsController < ApplicationController
   #-------------#
   # create_item #
   #-------------#
+  # FIXME: 廃止予定 2012/06/14 Shun Matsumoto
   def create_item
-    @item = Item.new( params[:item] )
-    @item.user_id = session[:user_id]
-    @item.group_id = params[:group_id]
-    @item.last_done_at = Time.now
+    item = Item.new( params[:item] )
+    item.user_id = session[:user_id]
+    item.group_id = params[:group_id]
+    item.last_done_at = Time.now
 
-    if @item.save
+    if item.save
       # 初期Done履歴作成
-      History.create( user_id: @item.user_id, item_id: @item.id, done_at: @item.last_done_at )
+      History.create( user_id: item.user_id, item_id: item.id, done_at: item.last_done_at )
     else
       alert = "ループアイテムの作成に失敗しました。"
     end
