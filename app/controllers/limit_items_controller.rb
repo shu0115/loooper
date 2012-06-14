@@ -5,7 +5,7 @@ class LimitItemsController < ApplicationController
   # index #
   #-------#
   def index
-    @done_flag = params[:done_flag].presence || "not_done"
+    @done_flag = params[:done_flag]
 
     # グループ取得
     @default_group = Group.default( session[:user_id] ).first
@@ -19,7 +19,7 @@ class LimitItemsController < ApplicationController
     @limit_items = @limit_items.where( "group_id = #{@group_id} AND group_id IN (#{Group.get_entry_group_ids( session[:user_id] ).join(',')})" )
 
     # Doneフラグ
-    if @done_flag == "not_done"
+    unless @done_flag == "done"
       @limit_items = @limit_items.where( "status != 'done'" )
     else
       @limit_items = @limit_items.where( status: "done" )
