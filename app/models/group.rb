@@ -65,7 +65,7 @@ class Group < ActiveRecord::Base
   # self.get_entry_group_ids #
   #--------------------------#
   def self.get_entry_group_ids( user_id )
-    # 自分がメンバーに登録されているグループのID取得
+    # 自分がメンバーに登録されているグループのID一覧取得
     group_ids = Member.where( user_id: user_id ).order( "groups.name ASC" ).includes( :group ).map{ |m| m.group.id }
     return group_ids
   end

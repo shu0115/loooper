@@ -7,13 +7,17 @@ class LoopItemsController < ApplicationController
   def index
     # グループ取得(デフォルトグループ／メンバーに紐付くグループ)
     @default_group = Group.default( session[:user_id] ).first
-    @groups = Group.get_entry_groups( session[:user_id] )
 
+    @groups = Group.get_entry_groups( session[:user_id] )
     @group_id = params[:group_id].presence || @default_group.id
 
+    # アイテム一覧
     @loop_items = LoopItem.not_archive.includes( :user, :group, :histories )
-    @loop_items = @loop_items.where( group_id: @group_id )
 
+    # グループ指定(指定グループID&自分が所属するグループであること)
+    @loop_items = @loop_items.where( "group_id = #{@group_id} AND group_id IN (#{Group.get_entry_group_ids( session[:user_id] ).join(',')})" )
+
+    # 新規アイテム
     @loop_item = LoopItem.new( life: 7 )
 
     # 残ライフが少ない順にソート

@@ -14,7 +14,11 @@ class LimitItemsController < ApplicationController
 
     # アイテム一覧
     @limit_items = LimitItem.order( "deadline ASC" ).includes( :user, :group, :histories )
-    @limit_items = @limit_items.where( group_id: @group_id )
+
+    # グループ指定(指定グループID&自分が所属するグループであること)
+    @limit_items = @limit_items.where( "group_id = #{@group_id} AND group_id IN (#{Group.get_entry_group_ids( session[:user_id] ).join(',')})" )
+
+    # Doneフラグ
     if @done_flag == "not_done"
       @limit_items = @limit_items.where( "status != 'done'" )
     else

@@ -53,7 +53,7 @@
           %td.blue.nowrap= loop_item.name
         - else
           %td.red.nowrap= loop_item.name
-        %td= link_to_unless( loop_item.group.blank?, loop_item.group.try(:name), { controller: "groups", action: "show", id: loop_item.group.try(:id) } )
+        %td.nowrap= link_to_unless( loop_item.group.blank?, loop_item.group.try(:name), { controller: "groups", action: "show", id: loop_item.group.try(:id) } )
         %td= loop_item.life
         %td= loop_item.last_done_at.blank? ? "" : loop_item.last_done_at.strftime("%Y/%m/%d")
         %td.gauge

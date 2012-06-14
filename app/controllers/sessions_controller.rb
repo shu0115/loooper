@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
     # デフォルトグループ作成
     Group.create_default( user )
 
-    redirect_to( { controller: "items" }, notice: "ログインしました。" )
+    redirect_to( { controller: "loop_items" }, notice: "ログインしました。" )
   end
 
   #---------#
