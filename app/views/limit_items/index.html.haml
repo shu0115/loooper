@@ -37,6 +37,7 @@
     %tr
       %th User
       %th Name
+      %th Group
       %th Deadline
       %th Gauge
       %th Status
@@ -51,7 +52,7 @@
           %td.blue.nowrap= limit_item.name
         - else
           %td.red.nowrap= limit_item.name
-        -#%td.nowrap= limit_item.name
+        %td.nowrap= link_to_unless( limit_item.group.blank?, limit_item.group.try(:name), { controller: "groups", action: "show", id: limit_item.group.try(:id) } )
         %td.nowrap= limit_item.deadline.blank? ? "" : limit_item.deadline.strftime("%Y/%m/%d") + " (#{Settings.weekday[limit_item.deadline.wday]})"
         %td.nowrap.gauge
           -# 残日数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
