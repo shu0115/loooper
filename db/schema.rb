@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120601043855) do
+ActiveRecord::Schema.define(:version => 20120610071411) do
+
+  create_table "groups", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.boolean  "default_flag", :default => false
+  end
 
   create_table "histories", :force => true do |t|
     t.integer  "user_id"
@@ -19,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20120601043855) do
     t.datetime "done_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "group_id"
   end
 
   create_table "items", :force => true do |t|
@@ -30,6 +39,17 @@ ActiveRecord::Schema.define(:version => 20120601043855) do
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
     t.datetime "archive_at"
+    t.integer  "group_id"
+    t.string   "type"
+    t.datetime "deadline"
+    t.integer  "done_user_id"
+  end
+
+  create_table "members", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|

@@ -4,8 +4,9 @@
   %table
     %tr
       %th User
-      %th Item
+      %th Name
       %th Done at
+
     - @histories.each{ |history|
     %tr
       %td= link_to_unless( history.user.try(:screen_name).blank?, image_tag( history.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{history.user.try(:screen_name)}", target: "_blank" )
@@ -14,6 +15,6 @@
     - }
 
 %br/
-= link_to "Items", { controller: "items" }
+= link_to t("Items"), { controller: "items" }
 |
 = link_to t( "menu.top", default: "Top" ), :root

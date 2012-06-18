@@ -1,0 +1,60 @@
+
+%h1= @group.name
+
+%p
+  %b Owner:
+  = link_to_unless( @group.user.blank?, image_tag( @group.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{@group.user.try(:screen_name)}", target: "_blank" )
+%p
+  %b Members:
+  - @members.each do |member|
+    = link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
+%p
+  %b Default:
+  = @group.default_flag
+%br
+
+%p.button= @group.delete_ok?( current_user ) ? link_to( "Delete", { action: "destroy", id: @group.id }, confirm: "「#{@group.name}」を削除します。よろしいですか？(グループを削除すると、紐付くメンバー、ループアイテムも同時に削除されます。)" ) : ""
+%br
+
+-# 現在メンバー
+- unless @members.blank?
+  現在メンバー
+  .users
+    %table
+      %tr
+        %th User
+        %th Name
+        %th ScreenName
+        - if @group.is_owner?( current_user )
+          %th
+
+      - @members.each do |member|
+        %tr
+          %td= link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
+          %td= member.user.try(:name)
+          %td= member.user.try(:screen_name)
+          - if @group.is_owner?( current_user )
+            %td.center.button= member.user_id != @group.user_id ? link_to( 'Delete', { action: "delete_member", member_id: member.id, group_id: @group.id }, confirm: "「#{member.user.try(:screen_name)}」をメンバーから除外します。よろしいですか？", title: "メンバーから除外しますか？" ) : ""
+
+-# 追加可能ユーザ一覧
+- if @group.default_flag != true and !@not_member_users.blank?
+  追加可能ユーザ
+  .users
+    %table
+      %tr
+        %th User
+        %th Name
+        %th ScreenName
+        - if @group.is_owner?( current_user )
+          %th
+
+      - @not_member_users.each do |user|
+        %tr
+          %td= link_to_unless( user.screen_name.blank?, image_tag( user.image, size: "20x20" ), "https://twitter.com/#!/#{user.screen_name}", target: "_blank" )
+          %td= user.name
+          %td= user.screen_name
+          - if @group.is_owner?( current_user )
+            %td.add.button= link_to( 'Add', { action: "add_member", user_id: user.id, group_id: @group.id }, confirm: "「#{user.screen_name}」をメンバーに追加します。よろしいですか？" )
+
+= link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @group.id
+| #{link_to t( "menu.list", default: "List" ), action: "index"}

@@ -1,0 +1,70 @@
+%h1= link_to "Listing LimitItems", action: "index"
+
+-# 新規作成フォーム
+.new_item
+  = form_for :limit_item, url: { action: "create", done_flag: @done_flag } do |f|
+    .field
+      %ul
+        %li.label= "Name"
+        %li.text_field= f.text_field :name
+    .field
+      %ul
+        %li.label= "Deadline"
+        %li.date_select= f.date_select :deadline, use_month_numbers: true, start_year: Time.now.year, end_year: Time.now.years_since(3).year
+    .field
+      %ul
+        %li.label= "Group"
+        %li.select= f.select :group_id, @groups.map{ |g| [g.name, g.id] }, selected: @group_id
+
+    .actions
+      %ul
+        %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
+
+-# Doneフラグリンク
+%span.button= link_to( "Done", { action: "index", group_id: @group_id, done_flag: (@done_flag == "done" ? "not_done" : "done" )  }, class: (@done_flag == "done" ? "choose" : "" ) )
+
+-# グループ一覧
+%span.button= link_to( @default_group.name, { action: "index", group_id: @default_group.id, done_flag: @done_flag }, class: (@default_group.id.to_s == @group_id.to_s ? "choose" : "" ) )
+- @groups.each do |group|
+  - unless group.id == @default_group.id
+    %span.button= link_to( group.name, { action: "index", group_id: group.id, done_flag: @done_flag }, class: (group.id.to_s == @group_id.to_s ? "choose" : "" ) )
+%br
+%br
+
+-# アイテム一覧
+.items
+  %table
+    %tr
+      %th User
+      %th Name
+      %th Group
+      %th Deadline
+      %th Gauge
+      %th Status
+      %th
+      %th
+      %th
+
+    - @limit_items.each do |limit_item|
+      %tr
+        %td= link_to_unless( limit_item.user.try(:screen_name).blank?, image_tag( limit_item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{limit_item.user.try(:screen_name)}", target: "_blank" )
+        - if limit_item.deadline.strftime("%Y%m%d").to_i > Time.now.strftime("%Y%m%d").to_i
+          %td.blue.nowrap= limit_item.name
+        - else
+          %td.red.nowrap= limit_item.name
+        %td.nowrap= link_to_unless( limit_item.group.blank?, limit_item.group.try(:name), { controller: "groups", action: "show", id: limit_item.group.try(:id) } )
+        %td.nowrap= limit_item.deadline.blank? ? "" : limit_item.deadline.strftime("%Y/%m/%d") + " (#{Settings.weekday[limit_item.deadline.wday]})"
+        %td.nowrap.gauge
+          -# 残日数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
+          = limit_item.show_percent_bar( limit_item.get_rest_date )
+        %td.nowrap= limit_item.status
+
+        -# ボタン
+        %td.done.button
+          - if @done_flag == "done"
+            - if limit_item.done_user_id == session[:user_id]
+              = link_to( 'Cancel', { action: "cancel", id: limit_item.id, group_id: @group_id, done_flag: @done_flag }, confirm: "完了をキャンセルします。よろしいですか？" )
+          - else
+            = link_to( 'Done', action: "done", id: limit_item.id, group_id: @group_id, done_flag: @done_flag )
+        %td.button= limit_item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: limit_item.id, group_id: @group_id, done_flag: @done_flag ) : ""
+        %td.button= limit_item.is_owner?( current_user ) ? link_to( "Delete", { action: "delete", id: limit_item.id, group_id: @group_id, done_flag: @done_flag }, confirm: "本当に削除してよろしいですか？" ) : ""
