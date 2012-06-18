@@ -3,6 +3,7 @@
     %li.user
       %span.icon= link_to_unless( current_user.screen_name.blank?, image_tag( current_user.image, size: "20x20" ), "https://twitter.com/#!/#{current_user.screen_name}", target: "_blank" )
       %span.name= current_user.screen_name
+    %li.item #{ link_to "Items", controller: "items" }
     %li.item #{ link_to "Loop", controller: "loop_items" }
     %li.item #{ link_to "Limit", controller: "limit_items" }
     -#%li.item #{ link_to "Archive", controller: "archives" }
