@@ -1,0 +1,106 @@
+$basic_font_color: #063476
+$base-font-size: 13px
+$base-line-height: 18px
+
+$orange: #ecac51
+$light_orange: #f3bd71
+$blue: #7fc4d8
+$light_blue: #a6d9e8
+$pink: #ec5174
+$light_pink: #f96f8e
+$white: #f4f4f1
+$gray: #c0bfb9
+$brown: #a4a49b
+$dark_brown: #908f82
+$yellow: #fee32d
+$light_yellow: #fff08c
+
+
+$normal: #026aff
+$hover: #0297ff
+$active: #00749f
+$visited: #026aff
+$focus: #0297ff
+
+.hidden
+  display: none !important
+textarea,
+input
+  margin: 0
+  padding: 0
+  border: none
+
+body
+  background: image_url("body.gif") $brown
+  color: $dark_brown
+  font:
+    size: $base-font-size 
+  line-height: $base-line-height
+  width: 320px
+  margin: 0 auto
+  position: relative
+  font-family: 'Lucida Grande', Arial, sans-serif
+#wrap
+  width: 310px
+  padding: 10px 10px 0 0
+  position: relative
+  z-index: 50
+  border:
+    left: solid 1px rgba(255, 255, 255, .1)
+    right: solid 1px rgba(255, 255, 255, .1)
+#border
+  position: absolute
+  left: 0
+  top: 0
+  width: 20px
+  border: 
+    right: solid 8px $dark_brown
+  z-index: 0
+
+a
+  +link-colors($normal, $hover, $active, $visited, $focus)
+
+header
+  +clearfix
+  padding: 0 0 20px 0
+  h1
+    a
+      display: block
+      float: right
+      text:
+        decoration: none
+      font: 
+        size: 36px
+      line-height: 42px
+      +link-colors($orange, $light_orange, $active, $orange, $focus)
+#body
+  clear: both
+
+#footer
+  padding: 40px 0 0 40px
+  color: $light_blue
+  nav.copy_right
+    ul
+      li
+        a
+          color: $light_blue
+          text-decoration: none
+    ul.created
+      margin: 0 0 10px 0
+      float: right
+      li
+        font: 
+          size: 11px
+        display: inline
+        text-align: right
+        padding: 0 0 0 6px
+    ul.copy_right
+      clear: both
+      li
+        font: 
+          size: 11px
+        display: block
+        text-align: right
+        padding: 0 6px
+
+

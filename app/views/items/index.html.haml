@@ -1,0 +1,39 @@
+.add
+  = link_to "＋", "#"
+.new
+  = form_for :item, url: { action: "create" } do |f|
+    = render 'form'
+%nav.items
+  %ul
+    %li.current
+      = link_to "Do now!", "/"
+    %li
+      = link_to "All", "/"
+    %li
+      = link_to "Groups", "/groups"
+.items
+  = render 'item'
+
+:javascript
+  $(document).ready(function(){
+
+    $(".add a").click(function () {
+      $(this).toggleClass("close");
+      $(".new").toggle();
+      $("div.items").toggle();
+      $("nav.items").toggle();
+      $("#footer").toggle();
+    });
+
+    $(".item").click(function() {
+    window.location.href = ($("p.item_show a").attr("href"));
+    });
+    $(".items_show").addClass("hidden");
+    $(".item").hover(function(){
+    $(this).addClass("item_hover");
+    },
+    function(){
+    $(this).removeClass("item_hover");
+    });
+
+  });
