@@ -35,6 +35,7 @@
 .items
   %table
     %tr
+      %th No.
       %th User
       %th Name
       %th Group
@@ -45,8 +46,9 @@
       %th
       %th
 
-    - @limit_items.each do |limit_item|
+    - @limit_items.each.with_index(1) do |limit_item, index|
       %tr
+        %td.nowrap.right= index
         %td= link_to_unless( limit_item.user.try(:screen_name).blank?, image_tag( limit_item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{limit_item.user.try(:screen_name)}", target: "_blank" )
         - if limit_item.deadline.strftime("%Y%m%d").to_i > Time.now.strftime("%Y%m%d").to_i
           %td.blue.nowrap= limit_item.name
@@ -67,4 +69,4 @@
           - else
             = link_to( 'Done', action: "done", id: limit_item.id, group_id: @group_id, done_flag: @done_flag )
         %td.button= limit_item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: limit_item.id, group_id: @group_id, done_flag: @done_flag ) : ""
-        %td.button= limit_item.is_owner?( current_user ) ? link_to( "Delete", { action: "delete", id: limit_item.id, group_id: @group_id, done_flag: @done_flag }, confirm: "本当に削除してよろしいですか？" ) : ""
+        %td.button= limit_item.is_owner?( current_user ) ? link_to( "Delete", { action: "delete", id: limit_item.id, group_id: @group_id, done_flag: @done_flag }, confirm: "「#{limit_item.name}」を削除します。よろしいですか？" ) : ""

@@ -16,6 +16,7 @@ class LoopItemsController < ApplicationController
 
     # グループ指定(指定グループID&自分が所属するグループであること)
     @loop_items = @loop_items.where( "group_id = #{@group_id} AND group_id IN (#{Group.get_entry_group_ids( session[:user_id] ).join(',')})" )
+    @loop_items = @loop_items.order( "name ASC" )
 
     # 新規アイテム
     @loop_item = LoopItem.new( life: 7 )

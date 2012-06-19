@@ -58,6 +58,7 @@ class Group < ActiveRecord::Base
   def self.get_entry_groups( user_id )
     # 自分がメンバーに登録されているグループ取得
     groups = Member.where( user_id: user_id ).order( "groups.name ASC" ).includes( :group ).map{ |m| m.group }
+
     return groups
   end
 

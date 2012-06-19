@@ -13,7 +13,7 @@ class LimitItemsController < ApplicationController
     @group_id = params[:group_id].presence || @default_group.id
 
     # アイテム一覧
-    @limit_items = LimitItem.order( "deadline ASC" ).includes( :user, :group, :histories )
+    @limit_items = LimitItem.order( "deadline ASC, name ASC" ).includes( :user, :group, :histories )
 
     # グループ指定(指定グループID&自分が所属するグループであること)
     @limit_items = @limit_items.where( "group_id = #{@group_id} AND group_id IN (#{Group.get_entry_group_ids( session[:user_id] ).join(',')})" )
