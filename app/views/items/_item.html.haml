@@ -10,8 +10,8 @@
           %span><= Item.show_gauge( item.get_rest_life )
           - if index > 0 and index % 10 == 0
             %br
-      %li.items_show= link_to '/', 'Looopの詳細を見る'
-      
+      %li.items_show= link_to 'Looopの詳細を見る', action: "edit", id: item.id
+
       / %li.done= link_to 'Done', action: "done", id: item.id
       / %li.done= link_to 'Archive', action: "archive", id: item.id
       / %li.cancel= link_to 'Cancel', { action: "cancel", id: item.id }, confirm: "キャンセルしてよろしいですか？"
