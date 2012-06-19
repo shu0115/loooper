@@ -69,5 +69,5 @@
         %td.button= loop_item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: loop_item.id ) : ""
         %td.button= link_to( 'History', controller: "histories", item_id: loop_item.id )
         -#%td.done.button= loop_item.is_owner?( current_user ) ? link_to( 'Archive', action: "archive", id: loop_item.id, type: params[:type] ) : ""
-        %td.cancel.button= loop_item.cancel_ok?( current_user, loop_item.histories ) ? link_to( 'Cancel', { action: "cancel", id: loop_item.id, group_id: loop_item.group_id, type: params[:type] }, confirm: "「#{loop_item.name}」の履歴を一つキャンセルします。よろしいですか？" ) : ""
-        %td.button= loop_item.is_owner?( current_user ) ? link_to( "Delete", { action: "destroy", id: loop_item.id, type: params[:type] }, confirm: "「#{loop_item.name}」を削除します。よろしいですか？(ループアイテムを削除すると、紐付く完了履歴も同時に削除されます。)" ) : ""
+        %td.cancel.button= loop_item.cancel_ok?( current_user, loop_item.histories ) ? link_to( 'Cancel', { action: "cancel", id: loop_item.id, group_id: loop_item.group_id, type: params[:type] }, data: { confirm: "「#{loop_item.name}」の履歴を一つキャンセルします。よろしいですか？" } ) : ""
+        %td.button= loop_item.is_owner?( current_user ) ? link_to( "Delete", { action: "destroy", id: loop_item.id, type: params[:type] }, data: { confirm: "「#{loop_item.name}」を削除します。よろしいですか？(ループアイテムを削除すると、紐付く完了履歴も同時に削除されます。)" } ) : ""

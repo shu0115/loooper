@@ -65,8 +65,8 @@
         %td.done.button
           - if @done_flag == "done"
             - if limit_item.done_user_id == session[:user_id]
-              = link_to( 'Cancel', { action: "cancel", id: limit_item.id, group_id: @group_id, done_flag: @done_flag }, confirm: "完了をキャンセルします。よろしいですか？" )
+              = link_to( 'Cancel', { action: "cancel", id: limit_item.id, group_id: @group_id, done_flag: @done_flag }, data: { confirm: "完了をキャンセルします。よろしいですか？" } )
           - else
             = link_to( 'Done', action: "done", id: limit_item.id, group_id: @group_id, done_flag: @done_flag )
         %td.button= limit_item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: limit_item.id, group_id: @group_id, done_flag: @done_flag ) : ""
-        %td.button= limit_item.is_owner?( current_user ) ? link_to( "Delete", { action: "delete", id: limit_item.id, group_id: @group_id, done_flag: @done_flag }, confirm: "「#{limit_item.name}」を削除します。よろしいですか？" ) : ""
+        %td.button= limit_item.is_owner?( current_user ) ? link_to( "Delete", { action: "delete", id: limit_item.id, group_id: @group_id, done_flag: @done_flag }, data: { confirm: "「#{limit_item.name}」を削除します。よろしいですか？" } ) : ""
