@@ -26,6 +26,13 @@ class LoopItemsController < ApplicationController
   end
 
   #------#
+  # show #
+  #------#
+  def show
+    @loop_item = LoopItem.where( user_id: session[:user_id], id: params[:id] ).includes( :group ).first
+  end
+
+  #------#
   # edit #
   #------#
   def edit
