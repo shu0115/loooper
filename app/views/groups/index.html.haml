@@ -12,21 +12,13 @@
         %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
 
 .groups
-  %table
-    %tr
-      %th Owner
-      %th Name
-      %th Member
-      %th
-
-    - @groups.each{ |group|
-    %tr
-      %td= link_to_unless( group.user.try(:screen_name).blank?, image_tag( group.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{group.user.try(:screen_name)}", target: "_blank" )
-      %td= "#{group.default_flag == true ? "★" : ""} #{group.name}"
-      %td
-        - members = group.members.sort{ |a, b| a.created_at <=> b.created_at }
-        - members.each{ |member|
-        = link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
-        -}
-      %td.button= link_to 'Show', action: "show", id: group.id
-    - }
+  - @groups.each{ |group|
+  .group
+    %h2= "#{group.default_flag == true ? "★" : ""} #{group.name}"
+    = link_to 'Show', action: "show", id: group.id
+    %ul
+      - members = group.members.sort{ |a, b| a.created_at <=> b.created_at }
+      - members.each{ |member|
+      %li= link_to_unless( member.user.try(:screen_name).blank?, image_tag( member.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{member.user.try(:screen_name)}", target: "_blank" )
+      -}
+  - }

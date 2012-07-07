@@ -68,6 +68,18 @@ header
 
 #body
   padding: 50px 0 0 0
+  .groups
+    .group
+      display: block
+      padding: 10px
+      +clearfix
+      clear: both
+      border:
+        bottom: solid #ccc 1px
+      ul
+        li
+          display: block
+          float: left
   .loop_items
     .loop_item
       display: block
@@ -209,22 +221,7 @@ header
           &.restore
             text-align: center
 
-  .groups
-    table
-      clear: both
-      tr
-        th,
-        td
-          padding: 8px 12px
-          border: #5e81a6 solid 1px
-        th
-          background: rgba(0, 0, 0, .4)
-          text-align: center
-          white-space: nowrap
-        td
-          background: rgba(0, 0, 0, .2)
-          &.button a
-            +pink_button
+  
 
   .users
     table
