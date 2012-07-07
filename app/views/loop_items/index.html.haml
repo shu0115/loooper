@@ -1,7 +1,8 @@
 -# 新規作成フォーム
 .add
-  追加
-.new_loop_item
+  %a
+    +
+.new
   = form_for :loop_item, url: { action: "create" } do |f|
     .field
       %ul

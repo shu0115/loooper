@@ -1,14 +1,14 @@
 - @loop_items.each.with_index(1) do |loop_item, index|
   .loop_item{ class: (loop_item.get_rest_life <= Settings.limit_day ? "do_now loop_item" : "loop_item") }
-    .name= loop_item.name
-    .group= link_to_unless( loop_item.group.blank?, loop_item.group.try(:name), { controller: "groups", action: "show", id: loop_item.group.try(:id) } )
-    = loop_item.life
-    = loop_item.last_done_at.blank? ? "" : loop_item.last_done_at.strftime("%Y/%m/%d")
+    %ul
+      %li.name= loop_item.name
+      %li.group= link_to_unless( loop_item.group.blank?, loop_item.group.try(:name), { controller: "groups", action: "show", id: loop_item.group.try(:id) } )
+      %li.gauge
+        -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
+        - 1.upto( loop_item.get_rest_life.abs ) do |index|
+          %span><= Item.show_gauge( loop_item.get_rest_life )
+          - if index > 0 and index % 10 == 0
+            %br
     .done.button= link_to( 'Done', action: "done", id: loop_item.id, group_id: loop_item.group_id, type: params[:type] )
     .button= loop_item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: loop_item.id ) : ""
-    .gauge
-      -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
-      - 1.upto( loop_item.get_rest_life.abs ) do |index|
-        %span><= Item.show_gauge( loop_item.get_rest_life )
-        - if index > 0 and index % 10 == 0
-          %br
+    
