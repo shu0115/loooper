@@ -1,0 +1,17 @@
+%h1 Showing Item
+
+%br
+
+%ul
+  %li= @loop_item.get_class  # クラス指定分岐
+  %li= @loop_item.name
+  %li= @loop_item.life
+  %li= @loop_item.group.try(:name)
+  %li= @loop_item.last_done_at.blank? ? "" : @loop_item.last_done_at.strftime("%Y/%m/%d")  # 最終タスク完了日
+  %li= @loop_item.histories.blank? ? "" : @loop_item.histories.length  # タスク完了履歴数
+
+%br
+%br
+%br
+
+= link_to t( "menu.list", default: "List" ), action: "index"

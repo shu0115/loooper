@@ -1,5 +1,5 @@
 - @loop_items.each.with_index(1) do |loop_item, index|
-  .loop_item{ class: (loop_item.get_rest_life <= Settings.limit_day ? "do_now loop_item" : "loop_item") }
+  .loop_item{ class: loop_item.get_class }
     .name= loop_item.name
     .group= link_to_unless( loop_item.group.blank?, loop_item.group.try(:name), { controller: "groups", action: "show", id: loop_item.group.try(:id) } )
     = loop_item.life
@@ -12,4 +12,6 @@
         %span><= Item.show_gauge( loop_item.get_rest_life )
         - if index > 0 and index % 10 == 0
           %br
+
+    -# タスク完了履歴数
     = loop_item.histories.blank? ? "" : loop_item.histories.length
