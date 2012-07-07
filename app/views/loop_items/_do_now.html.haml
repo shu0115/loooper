@@ -12,4 +12,3 @@
         %span><= Item.show_gauge( loop_item.get_rest_life )
         - if index > 0 and index % 10 == 0
           %br
-    = loop_item.histories.blank? ? "" : loop_item.histories.length
