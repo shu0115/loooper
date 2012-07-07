@@ -1,7 +1,5 @@
-%h1= link_to "Listing LoopItems", action: "index"
-
 -# 新規作成フォーム
-.new_item
+.new_loop_item
   = form_for :loop_item, url: { action: "create" } do |f|
     .field
       %ul
@@ -15,7 +13,7 @@
       %ul
         %li.label= "Group"
         %li.select= f.select :group_id, @groups.map{ |g| [g.name, g.id] }, selected: @group_id
-
+  
     .actions
       %ul
         %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
@@ -25,49 +23,27 @@
 - @groups.each do |group|
   - unless group.id == @default_group.id
     %span.button= link_to( group.name, { action: "index", group_id: group.id }, class: (group.id.to_s == @group_id.to_s ? "choose" : "" ) )
-%br
-%br
 
 -# アイテム一覧
-.items
-  %table
-    %tr
-      %th No.
-      %th User
-      %th Name
-      %th Group
-      %th Life
-      %th Last done at
-      %th Gauge
-      %th Done Count
-      %th
-      %th
-      %th
-      -#%th
-      %th
-      %th
-
+.loop_items 
+  %ul
     - @loop_items.each.with_index(1) do |loop_item, index|
-      %tr
-        %td.nowrap.right= index
-        %td= link_to_unless( loop_item.user.try(:screen_name).blank?, image_tag( loop_item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{loop_item.user.try(:screen_name)}", target: "_blank" )
+      %li.loop_item
+        = link_to_unless( loop_item.user.try(:screen_name).blank?, image_tag( loop_item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{loop_item.user.try(:screen_name)}", target: "_blank" )
         - if loop_item.get_rest_life > 0
-          %td.blue.nowrap= loop_item.name
+          .blue.nowrap= loop_item.name
         - else
-          %td.red.nowrap= loop_item.name
-        %td.nowrap= link_to_unless( loop_item.group.blank?, loop_item.group.try(:name), { controller: "groups", action: "show", id: loop_item.group.try(:id) } )
-        %td= loop_item.life
-        %td= loop_item.last_done_at.blank? ? "" : loop_item.last_done_at.strftime("%Y/%m/%d")
-        %td.gauge
+          .red.nowrap= loop_item.name
+        .nowrap= link_to_unless( loop_item.group.blank?, loop_item.group.try(:name), { controller: "groups", action: "show", id: loop_item.group.try(:id) } )
+        = loop_item.life
+        = loop_item.last_done_at.blank? ? "" : loop_item.last_done_at.strftime("%Y/%m/%d")
+        .gauge
           -# 残ライフ数分spanタグを表示 FIXME: spanタグ部分はデザイン次第で変更する 2012/06/01 Shun Matsumoto
           - 1.upto( loop_item.get_rest_life.abs ) do |index|
             %span><= Item.show_gauge( loop_item.get_rest_life )
             - if index > 0 and index % 10 == 0
               %br
-        %td= loop_item.histories.blank? ? "" : loop_item.histories.length
-        %td.done.button= link_to( 'Done', action: "done", id: loop_item.id, group_id: loop_item.group_id, type: params[:type] )
-        %td.button= loop_item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: loop_item.id ) : ""
-        %td.button= link_to( 'History', controller: "histories", item_id: loop_item.id )
-        -#%td.done.button= loop_item.is_owner?( current_user ) ? link_to( 'Archive', action: "archive", id: loop_item.id, type: params[:type] ) : ""
-        %td.cancel.button= loop_item.cancel_ok?( current_user, loop_item.histories ) ? link_to( 'Cancel', { action: "cancel", id: loop_item.id, group_id: loop_item.group_id, type: params[:type] }, data: { confirm: "「#{loop_item.name}」の履歴を一つキャンセルします。よろしいですか？" } ) : ""
-        %td.button= loop_item.is_owner?( current_user ) ? link_to( "Delete", { action: "destroy", id: loop_item.id, type: params[:type] }, data: { confirm: "「#{loop_item.name}」を削除します。よろしいですか？(ループアイテムを削除すると、紐付く完了履歴も同時に削除されます。)" } ) : ""
+        = loop_item.histories.blank? ? "" : loop_item.histories.length
+        .done.button= link_to( 'Done', action: "done", id: loop_item.id, group_id: loop_item.group_id, type: params[:type] )
+        .button= loop_item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: loop_item.id ) : ""
+
