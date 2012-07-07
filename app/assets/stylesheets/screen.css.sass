@@ -26,7 +26,7 @@
 
 body
   background: image-url("body.gif")
-  color: #ccc3b6
+  color: #222
 
 a
   &:link,
@@ -68,6 +68,18 @@ header
 
 #body
   padding: 50px 0 0 0
+  .groups
+    .group
+      display: block
+      padding: 10px
+      +clearfix
+      clear: both
+      border:
+        bottom: solid #ccc 1px
+      ul
+        li
+          display: block
+          float: left
   .loop_items
     .loop_item
       display: block
@@ -152,8 +164,6 @@ header
   .items
     table
       clear: both
-      width: 800px
-      margin: 0 auto 30px auto
       tr
         th,
         td
@@ -178,8 +188,6 @@ header
   .histories
     table
       clear: both
-      width: 800px
-      margin: 0 auto 30px auto
       tr
         th,
         td
@@ -197,8 +205,6 @@ header
   .archives
     table
       clear: both
-      width: 800px
-      margin: 0 auto 30px auto
       tr
         th,
         td
@@ -215,30 +221,11 @@ header
           &.restore
             text-align: center
 
-  .groups
-    table
-      clear: both
-      width: 800px
-      margin: 0 auto 30px auto
-      tr
-        th,
-        td
-          padding: 8px 12px
-          border: #5e81a6 solid 1px
-        th
-          background: rgba(0, 0, 0, .4)
-          text-align: center
-          white-space: nowrap
-        td
-          background: rgba(0, 0, 0, .2)
-          &.button a
-            +pink_button
+  
 
   .users
     table
       clear: both
-      width: 800px
-      margin: 0 auto 30px auto
       tr
         th,
         td
