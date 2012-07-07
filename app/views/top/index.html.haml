@@ -1,2 +1,2 @@
-%h1
-  #{APP_NAME}
+- unless current_user
+  .login= link_to "Login", "/auth/#{DEFAULT_PROVIDER}"
