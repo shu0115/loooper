@@ -1,4 +1,4 @@
-%h1= link_to 'Listing Groups', action: "index"
+%h1 グループ一覧
 
 -# 新規作成フォーム
 .new_group
@@ -38,8 +38,3 @@
       %td.button= group.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: group.id ) : ""
       %td.button= group.delete_ok?( current_user ) ? link_to( "Delete", { action: "destroy", id: group.id }, confirm: "「#{group.name}」を削除します。よろしいですか？(グループを削除すると、紐付くメンバー、ループアイテムも同時に削除されます。)" ) : ""
     - }
-
-%br/
-= link_to t("Items"), { controller: "items" }
-|
-= link_to t( "menu.top", default: "Top" ), :root
