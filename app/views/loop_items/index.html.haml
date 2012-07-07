@@ -13,7 +13,7 @@
       %ul
         %li.label= "Group"
         %li.select= f.select :group_id, @groups.map{ |g| [g.name, g.id] }, selected: @group_id
-  
+
     .actions
       %ul
         %li.submit= f.submit( t( "menu.create", default: "Create" ), "data-disable-with" => t( "menu.create", default: "Create" ) )
@@ -25,10 +25,10 @@
     %span.button= link_to( group.name, { action: "index", group_id: group.id }, class: (group.id.to_s == @group_id.to_s ? "choose" : "" ) )
 
 -# アイテム一覧
-.loop_items 
+.loop_items
   %ul
     - @loop_items.each.with_index(1) do |loop_item, index|
-      %li.loop_item
+      %li{ class: (loop_item.get_rest_life <= Settings.limit_day ? "do_now loop_item" : "loop_item") }
         = link_to_unless( loop_item.user.try(:screen_name).blank?, image_tag( loop_item.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{loop_item.user.try(:screen_name)}", target: "_blank" )
         - if loop_item.get_rest_life > 0
           .blue.nowrap= loop_item.name
@@ -46,4 +46,3 @@
         = loop_item.histories.blank? ? "" : loop_item.histories.length
         .done.button= link_to( 'Done', action: "done", id: loop_item.id, group_id: loop_item.group_id, type: params[:type] )
         .button= loop_item.is_owner?( current_user ) ? link_to( 'Edit', action: "edit", id: loop_item.id ) : ""
-
