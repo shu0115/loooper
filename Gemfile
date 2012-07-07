@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.5'
+gem 'rails', '3.2.6'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'sqlite3'
-
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+
+  # Compass
+  gem 'compass-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platform => :ruby
@@ -49,16 +49,12 @@ gem 'haml'
 gem 'kaminari'
 gem 'omniauth-twitter'
 gem 'tapp'
-
-# Compass
-group :assets do
-  gem 'compass-rails'
-end
+gem "rails_config"
 
 # Development Only
 group :development do
+  gem 'sqlite3'
   gem 'omniauth-scaffold'
   gem 'custom-template'
   gem 'erb2haml'
 end
-

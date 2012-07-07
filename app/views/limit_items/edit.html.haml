@@ -1,0 +1,23 @@
+%h1 Editing LimitItem
+
+-# 編集フォーム
+.edit_item
+  = form_for :limit_item, url: { action: "update", id: @limit_item.id, done_flag: @done_flag } do |f|
+    .field
+      %ul
+        %li.label= "Item"
+        %li.text_field= f.text_field :name
+    .field
+      %ul
+        %li.label= "Deadline"
+        %li.date_select= f.date_select :deadline, use_month_numbers: true, start_year: Time.now.year, end_year: Time.now.years_since(3).year
+    .field
+      %ul
+        %li.label= "Group"
+        %li.select= f.select :group_id, @groups.map{ |g| [g.name, g.id] }, selected: @group_id
+
+    .actions
+      %ul
+        %li.submit= f.submit t( "menu.update", default: "Update" ), disable_with: t( "menu.update", default: "Update" )
+
+= link_to t( "menu.list", default: "List" ), action: "index", group_id: @group_id, done_flag: @done_flag

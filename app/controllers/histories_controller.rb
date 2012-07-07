@@ -7,10 +7,12 @@ class HistoriesController < ApplicationController
   def index
     item_id = params[:item_id]
 
-    histories = History.where( user_id: session[:user_id] ).includes( :user, :item ).order( "done_at DESC" ).limit(1000)
+    histories = History.order( "done_at DESC" ).includes( :user, :item ).page( params[:page] ).per( 100 )
 
     unless item_id.blank?
-      histories = History.where( item_id: item_id )
+      histories = histories.where( item_id: item_id )
+    else
+      histories = histories.where( user_id: session[:user_id] )
     end
 
     @histories = histories.all

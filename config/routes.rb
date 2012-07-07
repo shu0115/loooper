@@ -1,4 +1,6 @@
 Loooper::Application.routes.draw do
+#  resources :groups
+
 #  resources :histories
 
 #  resources :items
