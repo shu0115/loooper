@@ -5,6 +5,7 @@
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
+    %script{:src => "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", :type => "text/javascript"}
     %meta{:content => "width=device-width, minimum-scale=1, maximum-scale=1", :name => "viewport"}/
   %body(class="#{controller_name} #{controller_name}_#{action_name}")
     = render :partial => 'shared/header'
@@ -12,6 +13,19 @@
     = simple_format( flash[:alert], style: "color: red;" ) unless flash[:alert].blank?
     #body
       = yield
+      %ul
+        - if current_user
+          %li
+            %h1.logo #{ link_to "#{APP_NAME}", :root }
+          %li.item #{ link_to "Loop", controller: "loop_items" }
+          %li.item #{ link_to "Limit", controller: "limit_items" }
+          -#%li.item #{ link_to "Archive", controller: "archives" }
+          %li.item #{ link_to "History", controller: "histories" }
+          %li.item #{ link_to "Group", controller: "groups" }
+          %li.logout #{ link_to "Logout", logout_path }
+          %li.user
+            %span.icon= link_to_unless( current_user.screen_name.blank?, image_tag( current_user.image, size: "20x20" ), "https://twitter.com/#!/#{current_user.screen_name}", target: "_blank" )
+            %span.name= current_user.screen_name
     %footer
       Developed by
       = succeed ", " do
